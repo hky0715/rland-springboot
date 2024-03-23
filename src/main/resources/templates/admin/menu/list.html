@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="inc/layout"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- 문서 내에서 a1을 찾아!-->
+    <script>
+      var str1 = "var x = 30;";
+      eval(str1);
+      console.log(x);
+
+      //var str2 = '({id:2, title:"hello!"})';
+      var str3 = '[23, "hello"]';
+
+      //var notice = eval(str2);
+      //console.log(notice[1]);
+      //console.log(notice.title);
+
+      var st2 = '{"id":2, "title":"hello"}';
+      var notice = JSON.parse(st2);
+      console.log(notice.title);
+
+      var json = JSON.stringify(st2);
+      console.log(json);
+
+      o1 = true || true;
+      o5 = "Cat" || "Dog";
+      o8 = "" || false;
+
+      console.log(o1); // true
+      console.log(o5); // cat
+      console.log(o8);
+
+      var x = null;
+      var y = null;
+      var z = 50;
+
+      var result = x || y || z;
+      console.log(result);
+
+      console.log("------------------------");
+      var result = undefined || 0;
+      console.log(result);
+
+      console.log("------------------------");
+
+      var a = 3 - "a";
+      console.log(a);
+      if (isNaN(a)) console.log("맛있겠다!");
+      if (a === NaN) console.log("맛있겠다!!!!!");
+
+      console.log("------------------------");
+
+      /*var add = new Function("x, y", "return x+y");
+            console.log(add(3, 4));*/
+
+      function add() {
+        var x = arguments[0];
+        var y = arguments[1];
+        return x + y;
+      }
+
+      console.log(add(3, 4, 5, 6, 7));
+      console.log(add(3));
+
+      // var b = 1;
+      // alert(b);
+      // alert(window.b);
+
+      var f1 = function () {
+        b = 2;
+        var b = 1;
+        console.log(window.b);
+        console.log(b);
+      };
+
+      f1();
+
+      var f3;
+      var x = 100;
+
+      var f2 = function () {
+        var x = 40;
+
+        return function () {
+          console.log(x);
+        };
+      };
+
+      f3 = f2();
+      f3();
+      /*
+            function Exam() {
+              var kor = 1;
+              window.kor = 2;
+              this.kor = 3;
+
+              console.log(kor, win dow.kor, this.kor);
+            }
+
+            Exam();
+            new Exam();
+      */
+      function Exam() {
+        this.kor = 20;
+        this.eng = 30;
+        this.math = 40;
+        /*
+              this.total = function total() {
+                return this.kor + this.eng + this.math;
+              };
+
+              this.avg = function () {
+                return this.total() / 3;
+              };
+      */
+      }
+
+      Exam.prototype = {
+        constructor: Exam,
+        total: function () {
+          return this.kor + this.eng + this.math;
+        },
+        avg: function () {
+          return this.total() / 3;
+        },
+      };
+
+      console.log("Exam.prototype : ", Exam.prototype);
+      var exam1 = new Exam();
+      /*
+        Exam.prototype.total = function total() {
+          return this.kor + this.eng + this.math;
+        };
+
+        Exam.prototype.avg = function () {
+          return this.total() / 3;
+        };
+      */
+
+      console.log(exam1.kor + exam1.eng + exam1.math);
+      console.log("total:", exam1.total());
+      console.log("avg:", exam1.avg());
+
+      var exam2 = new Exam(1, 2, 3);
+      console.log("Exam.prototype : ", Exam.prototype);
+      console.log(
+        "exam2.constructor.prototype : ",
+        exam2.constructor.prototype
+      );
+      console.log("exam2.constructor.prototype : ", exam2.__proto__);
+
+      function NewExam() {
+        this.com = 20;
+      }
+
+      NewExam.prototype = new Exam();
+      var exam4 = new NewExam();
+      console.log("상속받은 exam4 : ", exam4.kor);
+
+      Array.prototype.ahhahaha = function () {
+        console.log("아항항항");
+      };
+
+      var ar = [1, 2, 3, 4, 5];
+      ar.ahhahaha();
+
+      window.addEventListener("load", function (e) {
+        var a1 = document.querySelector("#a1");
+        a1.onclick = function (e) {
+          e.preventDefault();
+
+          // var x;
+          // alert(x === undefined);      // true
+          // alert(x === null);           // false
+          // alert(x == undefined);       // true
+          // alert(x == null);            // true
+
+          var nums = new Array();
+          // nums[0] = 5;
+          // nums[1] = 15;
+          // nums[2] = 45;
+          nums.push(3);
+          nums.push(4);
+          nums.push(5);
+          nums.push(7);
+          console.log(nums);
+
+          var num = nums.pop(); // pop 하면 사라져!
+          console.log(nums, num);
+
+          var num = nums.shift();
+          console.log(nums, num);
+
+          nums.unshift(9);
+          console.log(nums);
+
+          nums.splice(1, 1, 100);
+          // nums.splice(1,1,100,101,102,103);
+          console.log(nums);
+
+          // 열거! for each문처럼 편하게 쓴다잉
+          for (var num of nums) console.log(num);
+          // var arr = new Array(1, 2, nums);
+
+          // console.log(typeof arr[2]); // arr[2] = nums, 출력 : object
+          // console.log(typeof arr[2][1]); // nums[1]        출력 : number
+
+          // console.log(nums);
+
+          var exam = new Object();
+          exam["kor"] = 30;
+          exam.eng = 40; // 정의를 하지 않음!
+
+          console.log(exam);
+
+          delete exam.kor;
+          console.log(exam);
+        };
+      });
+    </script>
+  </head>
+  <body>
+    <main layout:fragment="main">
+      <section>
+        <header class="d:flex">
+          <h1
+            class="font-weight:3 font-size:3 color:main-3 deco deco-size:4 icon:trophy"
+          >
+            메뉴 목록
+          </h1>
+          <div>
+            <button class="n-btn n-btn-size:1">추가</button>
+          </div>
+        </header>
+
+        <section class="bg-color:base-4 p:2 border-radius:3">
+          <h1 class="d:none">카테고리 목록</h1>
+          <ul class="n-list n-tag-list">
+            <li><a href="">커피</a></li>
+            <li><a href="">쿠키</a></li>
+            <li><a href="">과일청</a></li>
+            <li><a href="">샌드위치</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1 class="d:none">메뉴 검색폼</h1>
+
+          <form class="n-form n-field-label-position:left">
+            <div>
+              <label class="flex-direction:row">
+                <span
+                  class="font-weight:3 color:base-7 w:1 d:flex align-items:center"
+                  >메뉴명</span
+                >
+                <input
+                  class="n-field-textbox:underline"
+                  type="text"
+                  placeholder="메뉴명을 입력해주세요."
+                />
+              </label>
+            </div>
+
+            <div>
+              <button
+                class="n-btn n-btn-type:outline n-btn-size:1 deco icon:magnifying_glass"
+              >
+                검색
+              </button>
+              <button id="a1" class="n-btn n-btn-type:outline n-btn-size:1">
+                초기화
+              </button>
+            </div>
+          </form>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

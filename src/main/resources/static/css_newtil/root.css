@@ -1,0 +1,47 @@
+:root {
+  --color-base-1: #ffffff;
+  --color-base-2: #e4e7ea;
+  --color-base-3: #dee2e6;
+  --color-base-4: #ced4da;
+  --color-base-5: #adb5bd;
+  --color-base-6: #868e96;
+  --color-base-7: #495057;
+  --color-base-8: #343a40;
+  --color-base-9: #1a1c20;
+  --color-base-10: #000000;
+
+  --rgb-base-1: 255, 255, 255;
+  --rgb-base-2: 228, 231, 234;
+  --rgb-base-3: 222, 226, 230;
+  --rgb-base-4: 206, 212, 218;
+  --rgb-base-5: 173, 181, 189;
+  --rgb-base-6: 134, 142, 150;
+  --rgb-base-7: 73, 80, 87;
+  --rgb-base-8: 52, 58, 64;
+  --rgb-base-9: 26, 28, 32;
+  --rgb-base-10: 0, 0, 0;
+
+  --color-main-1: #99c842;
+  --color-main-2: #85b132;
+  --color-main-3: #fd7e14;
+
+  --rgb-main-1: 153, 200, 66;
+  --rgb-main-2: 133, 177, 50;
+  --rgb-main-3: 117, 157, 42;
+
+  --color-sub-1: #339af0;
+  --color-sub-2: #228be6;
+  --color-sub-3: #1c7ed6;
+
+  --rgb-sub-1: 51, 154, 240;
+  --rgb-sub-2: 34, 139, 230;
+  --rgb-sub-3: 28, 126, 214;
+
+  --color-accent-1: #ff6b6b;
+  --color-accent-2: #fa5252;
+  --color-accent-3: #f03e3e;
+
+  --rgb-accent-1: 255, 107, 107;
+  --rgb-accent-2: 250, 82, 82;
+  --rgb-accent-3: 240, 62, 62;
+}

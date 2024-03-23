@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="inc/layout"
+>
+  <head>
+    <link
+      href="/css/components/menu/card.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/css/components/menu/menu-filter.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/css/components/menu/basket-status.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/css/components/menu/list.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="/js/menu/list.js" defer></script>
+  </head>
+  <body>
+    <main layout:fragment="main">
+      <section class="menu-list">
+        <h1 class="d:none">메뉴 검색 목록</h1>
+        <div>
+          <section class="menu-filter">
+            <h1>Rland Menu<span class="d:none">검색</span></h1>
+
+            <nav class="category-filter">
+              <h1 class="d:none">카테고리 검색 메뉴 목록</h1>
+              <ul>
+                <li>
+                  <a
+                    class="sm:deco md:deco sm:icon-filter_list"
+                    href="list"
+                    th:class="${param.c}==null? 'current'"
+                    >전체메뉴</a
+                  >
+                </li>
+                <li th:each="cl:${cList}">
+                  <a
+                    class="d:none md:d:inline"
+                    href="?c=1"
+                    th:class="${{param.c}}==${cl.id}? 'current'"
+                    th:href="@{./list(c=${cl.id})}"
+                    th:text="${cl.name}"
+                    >커피</a
+                  >
+                </li>
+
+                <!--
+                  th:class="${param.c==}'2'? 'current'"
+                  th:class="${#strings.equals(param.c, cl.id)? 'current' : ''}"
+                  ${#strings.equals(first, second)}-->
+                <!--
+                <li><a class="d:none md:d:inline" href="">수제청</a></li>
+                <li><a class="d:none md:d:inline" href="">샌드위치</a></li>
+                <li><a class="d:none md:d:inline" href="">쿠키</a></li>
+                -->
+              </ul>
+            </nav>
+            <section class="query-filter" id="query-form">
+              <h1 class="d:none">이름 검색 폼</h1>
+              <form action="list" method="get">
+                <fieldset>
+                  <legend class="d:none">이름 검색</legend>
+                  <!--input id="query-input"에서 class="query-input"으로 변경함-->
+                  <input
+                    class="query-input"
+                    type="text"
+                    placeholder="메뉴 검색"
+                    name="q"
+                  />
+                  <!--<input type="hidden" name="c" />-->
+                  <button class="icon icon-find">검색</button>
+                </fieldset>
+              </form>
+            </section>
+          </section>
+
+          <!-- ------------------------------------------------------ -->
+
+          <section class="menu-card-list" id="menu-card-list">
+            <h1 class="d:none">메뉴 목록</h1>
+            <div class="content">
+              <section class="menu-card" th:each="ml:${mList}">
+                <h1>
+                  <a
+                    class="heading-3"
+                    href="detail.html?id=1"
+                    th:href="@{./detail(id=${ml.id})}"
+                    th:text="${ml.korName}"
+                  >
+                    카페라떼
+                  </a>
+                </h1>
+                <h2
+                  class="heading-2 font-weight:normal color:base-5"
+                  th:text="${ml.engName}"
+                >
+                  Cafe Latte
+                </h2>
+                <div class="price-block d:flex align-items:flex-end">
+                  <span class="font-weight:bold" th:text="${ml.price}"
+                    >4,500</span
+                  >원<span class="soldout-msg ml:auto mr:auto md:d:none"
+                    >SOLD OUT</span
+                  >
+                </div>
+                <div class="img-block">
+                  <a href="detail.html?id=1" th:href="@{./detail(id=${ml.id})}"
+                    ><img src="/image/menu/8.jpg"
+                  /></a>
+                </div>
+                <div class="like-block d:flex justify-content:flex-end">
+                  <a class="icon icon-heart icon-color:base-4" href=""
+                    >좋아요</a
+                  >
+                  <span class="font-weight:bold ml:1" th:text="${ml.likeCount}"
+                    >2</span
+                  >
+                </div>
+                <div class="pay-block d:flex">
+                  <!-- <a
+                    class="icon md:icon:none icon-cart icon-color:base-0 color:base-0 btn-type:icon btn-cart md:btn-type:text"
+                    href=""
+                    >담기</a
+                  > -->
+                  <form action="/cart/add-menu" method="post">
+                    <input type="hidden" name="id" th:value="${ml.id}" />
+                    <button
+                      class="icon md:icon:none icon-cart icon-color:base-0 color:base-0 btn-type:icon btn-cart md:btn-type:text"
+                    >
+                      담기
+                    </button>
+                  </form>
+                  <a
+                    class="icon md:icon:none icon-card icon-color:base-0 color:base-0 btn-type:icon btn-card md:btn-type:text"
+                    href=""
+                    >주문하기</a
+                  >
+                </div>
+              </section>
+            </div>
+          </section>
+          <section style="" class="mb:5">
+            <h1 class="d:none">페이저</h1>
+            <!--
+            <div th:text="${{param.p}} eq null ? '1' : ${param.p}">0</div>
+            <div th:text="${param.p eq null ? '1' : $param.p}">0</div>
+            -->
+            <ul
+              class="n-pager"
+              style="display: flex; justify-content: center"
+              th:with="page=${param.p} eq null ? 1 : ${{param.p}}
+                , temp=(${page}-1)/5
+                , startnum=${T(java.lang.Math).floor(temp)}*5+1
+                , temp1=${count div 6}
+                , lastnum=${count} mod 6 eq 0 ? ${temp1} : ${temp1}+1"
+            >
+              <li>
+                <span th:if="${page} lt 6">이전</span>
+                <a
+                  th:if="${{page}} ge 6"
+                  th:href="@{./list(p=${startnum-1})}"
+                  href="list?p=1"
+                  >이전</a
+                >
+              </li>
+              <!--
+              <li
+                th:if="${lastnum} ge ${n}"
+                th:each="n : ${#numbers.sequence(startnum,startnum+4)}"
+                th:class="${{param.p}} eq ${n}? 'active' : ''"
+              >
+              -->
+              <li
+                th:each="n : ${#numbers.sequence(startnum,startnum+4)}"
+                th:class="${{param.p}} eq ${n}? 'active' : ''"
+              >
+                <span th:if="${n} gt ${lastnum}" th:text="${n}"></span>
+                <a
+                  th:if="${n} le ${lastnum}"
+                  th:href="@{./list(p=${n})}"
+                  th:text="${n}"
+                  href="list?p=1"
+                  >1</a
+                >
+              </li>
+              <li>
+                <span th:if="${lastnum} lt ${startnum+5}">다음</span>
+                <a
+                  th:if="${lastnum} ge ${startnum+5}"
+                  th:href="@{./list(p=${startnum+5})}"
+                  href="list?p=6"
+                  >다음</a
+                >
+              </li>
+            </ul>
+          </section>
+        </div>
+      </section>
+
+      <section class="basket-status">
+        <h1 class="d:none">Basket Bar</h1>
+        <dl class="ph:3">
+          <dt>금액</dt>
+          <dd class="ml:2">5,000원</dd>
+          <dt class="d:none">수량</dt>
+          <dd class="ml:auto">
+            <a
+              href="/basket/list"
+              class="icon icon-basket_outline icon-color:base-0 icon-size:4 icon-text-with"
+              >1</a
+            >
+          </dd>
+        </dl>
+      </section>
+      <script>
+        console.log("body main end");
+      </script>
+    </main>
+  </body>
+</html>

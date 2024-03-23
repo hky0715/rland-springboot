@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/newtil-css@0.1.32/dist/style.css"
+    />
+  </head>
+  <header class="header md:header">
+    <div class="content-box">
+      <h1><a href="/index">Rland</a></h1>
+      <nav class="main-menu">
+        <ul class="md:d:none">
+          <li>
+            <a class="icon icon-menu md:icon-size:3 icon-color:base-0" href=""
+              >메뉴</a
+            >
+          </li>
+        </ul>
+        <ul class="d:none md:d:flex">
+          <li>
+            <a class="icon icon-cart icon-color:base-0" href="">장바구니</a>
+          </li>
+          <li>
+            <a class="icon icon-alert icon-color:base-0 icon-count-with" href=""
+              >알림<span>2</span></a
+            >
+          </li>
+          <li sec:authorize="isAnonymous()">
+            <a class="icon icon-person icon-color:base-0" href="/user/signin"
+              >로그인</a
+            >
+          </li>
+          <li sec:authorize="isAuthenticated()">
+            <span sec:authentication="name">이거 나오면 안되는데;;;</span>
+            <span th:text="${#authentication.name}"
+              >이거 나오면 안되는데;;;</span
+            >
+            <a class="icon icon-sign-out icon-color:base-0" href="/user/signout"
+              >로그아웃</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+</html>
