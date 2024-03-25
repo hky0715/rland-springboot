@@ -51,6 +51,7 @@
                   <a
                     class="d:none md:d:inline"
                     href="?c=1"
+                    th:data-id="${cl.id}"
                     th:class="${{param.c}}==${cl.id}? 'current'"
                     th:href="@{./list(c=${cl.id})}"
                     th:text="${cl.name}"
