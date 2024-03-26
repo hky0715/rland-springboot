@@ -95,6 +95,7 @@ public class CartController {
         }
 
         Cookie menusCookie = new Cookie("menus", menuEncoded);
+        menusCookie.setPath("/");
         response.addCookie(menusCookie);
 //      response.addCookie(new Cookie("menuIds", menus.toString()));
         
