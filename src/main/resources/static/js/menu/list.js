@@ -62,6 +62,38 @@ Cookie.prototype = {
   get: function (name) {
     return this.map[name];
   },
+  save: function () {
+    /* 초기화 후 map에 담긴 내용을 encoding해서 넣으면 save를 할 수 있다!
+    cookie를 초기화 할 때는 path를 반드시 맞춰줘야 함*/
+
+    var list = this.map["menus"];
+    var size = list.length;
+    var lastIndex = size - 1;
+
+    var str = "[";
+
+    //var list = this.map[value];
+    for (var c of list) {
+      //str += c; // this.map에 있는 내용을 돌면서 넣어야 함......
+      str += JSON.stringify(c);
+      if (c !== list[lastIndex]) str += ",";
+    }
+    str += "]";
+
+    var encodedCookie = decodeURIComponent(str);
+    //document.cookie = "menus=hehe; path=/;";
+    document.cookie = `menus=${encodedCookie}; path=/;`;
+  },
+  add: function (name, value) {},
+
+  // 객체를 배열에 넣는 것!
+  addItem: function (name, item) {
+    var list = this.map[name];
+    console.log(typeof list);
+    list.push(item);
+  },
+  set: function (name, value) {},
+  remove: function (name) {},
 };
 
 window.addEventListener("load", function () {
@@ -71,10 +103,9 @@ window.addEventListener("load", function () {
   var val = decodeURIComponent(document.cookie.split("=")[1]);
 
   console.log(JSON.parse(val));
-  console.log(JSON.parse(val)[2].korName);
 
   var cookie = new Cookie();
-  console.log("헤헤헤헤헤", cookie.get("menus"));
+  //console.log("헤헤헤헤헤", cookie.get("menus"));
 
   var queryForm = this.document.getElementById("query-form");
   var queryButton = queryForm.getElementsByClassName("icon-find")[0];
@@ -85,6 +116,37 @@ window.addEventListener("load", function () {
 
   var menuCardList = this.document.getElementById("menu-card-list");
   var menuContent = menuCardList.getElementsByClassName("content")[0];
+
+  menuContent.onclick = function (e) {
+    if (!e.target.classList.contains("btn-cart")) return;
+
+    //alert("haha");
+
+    var item = {};
+    item.id = e.target.dataset.id;
+    item.korName = e.target.dataset.korName;
+    item.engName = e.target.dataset.engName;
+    item.price = e.target.dataset.price;
+    item.regDate = e.target.dataset.regDate;
+    item.img = e.target.dataset.img;
+    item.categoryid = e.target.dataset.categoryId;
+
+    cookie.addItem("menus", item);
+    cookie.save();
+
+    e.preventDefault();
+  };
+
+  // var payBlock = document.querySelector(".pay-block");
+
+  // payBlock.onclick = function (e) {
+  //   if (e.target.tagName != "BUTTON") {
+  //     return;
+  //   }
+
+  //   e.preventDefault();
+  //   alert("담기");
+  // };
 
   categoryFilter.onclick = function (e) {
     // target = 이벤트가 발생한 타겟!

@@ -140,6 +140,13 @@
                   <form action="/cart/add-menu" method="post">
                     <input type="hidden" name="id" th:value="${ml.id}" />
                     <button
+                      th:data-id="${ml.id}"
+                      th:data-kor-name="${ml.korName}"
+                      th:data-eng-name="${ml.engName}"
+                      th:data-price="${ml.price}"
+                      th:data-reg-date="${ml.regDate}"
+                      th:data-img="${ml.img}"
+                      th:data-category-id="${ml.categoryId}"
                       class="icon md:icon:none icon-cart icon-color:base-0 color:base-0 btn-type:icon btn-cart md:btn-type:text"
                     >
                       담기
