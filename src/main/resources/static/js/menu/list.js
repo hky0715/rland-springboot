@@ -73,11 +73,13 @@ Cookie.prototype = {
     var str = "[";
 
     //var list = this.map[value];
-    for (var c of list) {
+    for (var c of this.map["menus"]) {
       //str += c; // this.map에 있는 내용을 돌면서 넣어야 함......
       str += JSON.stringify(c);
-      if (c !== list[lastIndex]) str += ",";
+      if (c !== list[lastIndex]) 
+        str += ",";
     }
+    
     str += "]";
 
     var encodedCookie = decodeURIComponent(str);
@@ -89,7 +91,6 @@ Cookie.prototype = {
   // 객체를 배열에 넣는 것!
   addItem: function (name, item) {
     var list = this.map[name];
-    console.log(typeof list);
     list.push(item);
   },
   set: function (name, value) {},
@@ -100,9 +101,7 @@ window.addEventListener("load", function () {
   // 버튼에 바로 id를 부여하지 않는다. id는 남발하지 말아야 함. id는 section(영역)에나 부여하는 것..!
   // 영역 안의 다른 태그를 찾는 방법을 알아야 함
 
-  var val = decodeURIComponent(document.cookie.split("=")[1]);
-
-  console.log(JSON.parse(val));
+  // var val = decodeURIComponent(document.cookie.split("=")[1]);
 
   var cookie = new Cookie();
   //console.log("헤헤헤헤헤", cookie.get("menus"));
@@ -111,7 +110,7 @@ window.addEventListener("load", function () {
   var queryButton = queryForm.getElementsByClassName("icon-find")[0];
   var queryInput = queryForm.getElementsByClassName("query-input")[0];
 
-  var categoryFilter = document.querySelector(".category-filter");
+  var categoryFilter = this.document.querySelector(".category-filter");
   //var li1 = categoryFilter.querySelector("ul>li:nth-child(2)");
 
   var menuCardList = this.document.getElementById("menu-card-list");
@@ -124,17 +123,19 @@ window.addEventListener("load", function () {
 
     var item = {};
     item.id = e.target.dataset.id;
-    item.korName = e.target.dataset.korName;
-    item.engName = e.target.dataset.engName;
+    item.korName = e.target.dataset.korname;
+    item.engName = e.target.dataset.engname;
     item.price = e.target.dataset.price;
-    item.regDate = e.target.dataset.regDate;
+    item.regDate = e.target.dataset.regdate;
     item.img = e.target.dataset.img;
-    item.categoryid = e.target.dataset.categoryId;
+    item.categoryId = e.target.dataset.categoryid;
+
+    e.preventDefault();
 
     cookie.addItem("menus", item);
     cookie.save();
 
-    e.preventDefault();
+    console.log(cookie);
   };
 
   // var payBlock = document.querySelector(".pay-block");

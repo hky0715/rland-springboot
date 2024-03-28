@@ -141,12 +141,12 @@
                     <input type="hidden" name="id" th:value="${ml.id}" />
                     <button
                       th:data-id="${ml.id}"
-                      th:data-kor-name="${ml.korName}"
-                      th:data-eng-name="${ml.engName}"
+                      th:data-korname="${ml.korName}"
+                      th:data-engname="${ml.engName}"
                       th:data-price="${ml.price}"
-                      th:data-reg-date="${ml.regDate}"
+                      th:data-regdate="${ml.regDate}"
                       th:data-img="${ml.img}"
-                      th:data-category-id="${ml.categoryId}"
+                      th:data-categoryid="${ml.categoryId}"
                       class="icon md:icon:none icon-cart icon-color:base-0 color:base-0 btn-type:icon btn-cart md:btn-type:text"
                     >
                       담기
@@ -223,12 +223,13 @@
         <h1 class="d:none">Basket Bar</h1>
         <dl class="ph:3">
           <dt>금액</dt>
-          <dd class="ml:2">5,000원</dd>
+          <dd class="ml:2" th:text="${cartTotalPrice}">5,000원</dd>
           <dt class="d:none">수량</dt>
           <dd class="ml:auto">
             <a
               href="/basket/list"
               class="icon icon-basket_outline icon-color:base-0 icon-size:4 icon-text-with"
+              th:text="${cartCount}"
               >1</a
             >
           </dd>
