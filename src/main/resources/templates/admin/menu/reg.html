@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"   
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="inc/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .n-container {
+            --container-max-width: 900px;
+        }
+    </style>
+</head>
+<body>
+    <main layout:fragment="main" class="n-container mx:auto">
+        <header class="d:flex ai:center">
+            <h1 class="n-font n-font:heading-1 fw:3 deco deco-size:3 icon:stack">메뉴 목록</h1>
+            <div><button class="n-btn n-btn-type:filled">취소</button></div>
+        </header>
+        <section>
+            <h1 class="d:none">메뉴 등록 폼</h1>
+            <form class="n-form md:n-field-label-position:left">
+                <div>
+                  <label>
+                    <span>한글명</span>
+                    <input type="text" placeholder="placeholder"/>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <span>영문명</span>
+                    <input type="text" placeholder="placeholder"/>
+                  </label>
+                </div>
+              </form>
+        </section>
+    </main>
+</body>
+</html>

@@ -8,9 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("admin/menu")
 public class MenuController {
     
+    @GetMapping("reg")
+    public String reg() {
+        return "admin/menu/reg";
+    }
+
     @GetMapping("list")
     public String list() {
 
-        return "/admin/menu/list";
+        return "admin/menu/list";
     }
+
+    
 }

@@ -85,7 +85,7 @@ public class MenuController {
         /* List 객체로 다시 변환해야함!
         (X) List<MenuView> cookieList = new Gson().fromJson(cookie, List.class);
         (1) MenuView[] list = new Gson().fromJson(cookie, Menu[].class);
-        (2) Gson이 제공하는 TypeToke으로.... type을 맞춰줘라....*/ 
+        (2) Gson이 제공하는 TypeToken으로.... type을 맞춰줘라....*/ 
         
         if (cookie != null) { 
             
@@ -102,7 +102,8 @@ public class MenuController {
             
             cartCount = cookieList.size();
         }
-              
+       
+        
 
         model.addAttribute("cartTotalPrice", cartTotalPrice);
         model.addAttribute("cartCount", cartCount);
