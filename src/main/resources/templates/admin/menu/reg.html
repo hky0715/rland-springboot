@@ -11,6 +11,29 @@
         .n-container {
             --container-max-width: 900px;
         }
+
+        input:invalid {
+          background-color: red;
+        }
+
+        /* invalid한 놈에게만 얘를 붙일 수는 없을까? */
+        .n-form>div::after {
+          content: "????????";
+          display: inline-block;
+          width:0px;
+          /*width: 50px;*/
+          height: 50px;
+          overflow: hidden;
+
+          /*opacity: 0; /*투명*/
+          /*transition: opacity 1s;*/
+          transition: width 1s;
+        }
+
+        .n-form>div:has(:invalid)::after {
+          /*opacity: 1; /*불투명*/
+          width:100px;
+        }
     </style>
 </head>
 <body>
@@ -21,18 +44,48 @@
         </header>
         <section>
             <h1 class="d:none">메뉴 등록 폼</h1>
-            <form class="n-form md:n-field-label-position:left">
+            <form action="reg" method="post" class="n-form md:n-field-label-position:left" enctype="multipart/form-data" novalidate>
                 <div>
                   <label>
                     <span>한글명</span>
-                    <input type="text" placeholder="placeholder"/>
+                    <!-- <input type="text" name="kor-name" required minlength="3" placeholder="placeholder" autofocus autocomplete="off" list="menu-list"/> -->
+                    <input type="text" name="korName" required minlength="3" placeholder="placeholder" autofocus autocomplete="off" list="menu-list"/>
+                    <datalist id="menu-list">
+                      <option>아메리카노</option>
+                      <option>딸기라떼</option>
+                      <option>카페라떼</option>
+                      <option>버블티</option>
+                    </datalist>
                   </label>
                 </div>
                 <div>
                   <label>
                     <span>영문명</span>
-                    <input type="text" placeholder="placeholder"/>
+                    <!-- <input type="text" name="eng-name" placeholder="3자 이상의 영문명을 입력하세요."/> -->
+                    <input type="text" name="engName" placeholder="3자 이상의 영문명을 입력하세요."/>
                   </label>
+                </div>
+                <div>
+                  <label>
+                    <span>이미지</span>
+                    <input name="img-file" type="file"/>
+                    <!-- <input type="file" name="img"/> -->
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <span>가격</span>
+                    <input type="number" name="price" min="0" max="100000" placeholder="placeholder"/>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <span>설명</span>
+                    <input type="text" name="desc" placeholder="placeholder"/>
+                  </label>
+                </div>
+                <div>
+                  <button class="btn n-btn">등록</button>
                 </div>
               </form>
         </section>
