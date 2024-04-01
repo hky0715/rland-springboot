@@ -65,4 +65,9 @@ public class MenuServiceImpl implements MenuService {
         return menu;
     }
     
+    
+    public int add(Menu menu) {
+        int affected = repository.save(menu);
+        return affected;
+    }
 }

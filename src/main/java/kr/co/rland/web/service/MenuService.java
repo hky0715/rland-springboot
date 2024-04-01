@@ -15,5 +15,8 @@ public interface MenuService {
     int getCount();
 
     Menu getById(Long id);
-    
+   
+    /* 데이터를 넣을 땐 없었던 데이터(ex. id)를 사용하기 위해서 메뉴를 다시 빼와야 함 
+    해당 데이터를 쓰든 쓰지않든 일단 그냥 받아옴*/ 
+    int add(Menu menu);
 }

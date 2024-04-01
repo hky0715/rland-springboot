@@ -16,9 +16,10 @@ public interface MenuRepository {
     Menu findById(Long id);
     // List<MenuView> findAllByName(String name);
 
-    void save(Menu menu);
-    void update(Menu menu);
-    void delete(long id);
+    // Mybatis의 resultType은 정수가 기본!
+    int save(Menu menu);
+    int update(Menu menu);
+    int delete(long id);
 
     int count(Long categoryId, String query);
     

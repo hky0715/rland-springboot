@@ -18,5 +18,6 @@ public class Menu {
 	private int price;
 	private String img;
 	private Date regDate;
-	private int categoryId;
+	private long categoryId;
+	private long regMemberId;
 }
