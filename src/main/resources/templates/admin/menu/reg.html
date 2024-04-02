@@ -34,7 +34,38 @@
           /*opacity: 1; /*불투명*/
           width:100px;
         }
+
+        .preview-panel {
+          overflow: hidden;
+        }
+
+        .preview-panel img {
+          height: 100px;
+
+          /*opacity: 0;
+          transition: opacity 1s;
+          */
+
+          /*position: relative;
+          left: -200px;
+          transition: left 1s;*/
+
+          transform: translateX(-200px);
+          transition: transform 1s;
+        }
+
+        .preview-panel img.fade-in{
+          opacity: 1;
+        }
+
+        .preview-panel img.slide-in{
+          transform: translateX(0px);
+          /* left: 10px; */
+        }
+
     </style>
+    <script src="/js/admin/menu/reg.js">
+    </script>
 </head>
 <body>
     <main layout:fragment="main" class="n-container mx:auto">
@@ -42,7 +73,7 @@
             <h1 class="n-font n-font:heading-1 fw:3 deco deco-size:3 icon:stack">메뉴 목록</h1>
             <div><button class="n-btn n-btn-type:filled">취소</button></div>
         </header>
-        <section>
+        <section id="reg-form">
             <h1 class="d:none">메뉴 등록 폼</h1>
             <form action="reg" method="post" class="n-form md:n-field-label-position:left" enctype="multipart/form-data" novalidate>
                 <div>
@@ -68,9 +99,13 @@
                 <div>
                   <label>
                     <span>이미지</span>
-                    <input name="img-file" type="file"/>
+                    <input class="d:none img-input" name="img-file" type="file" multiple/>
                     <!-- <input type="file" name="img"/> -->
                   </label>
+                </div>
+                
+                <div class="preview-panel fade-in">
+                  <!-- 이미지가 등록된다면 아래 div에 썸네일처럼 보이게!-->
                 </div>
                 <div>
                   <label>
