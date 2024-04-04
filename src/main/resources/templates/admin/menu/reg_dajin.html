@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"   
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="inc/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/newtil-css@0.1.48/dist/style.css" />
+    <script src="/js/admin/menu/reg.js"></script>
+    <style>
+        .n-container {
+            --container-max-width: 900px; 
+        }
+        /* .n-form::after{
+            content:"음하하하";
+            display: block;
+            width: 100%;
+            height: 50px;
+            background-color: yellow;
+        } */
+        /* .n-form>div:has(input:invalid)::after{
+            content:"삐용삐용";
+            color: red;
+            display: inline-block;
+            width: 0px;
+            height: 50px;
+        } */
+        .n-form>div::after{
+            content:"삐용삐용";
+            color: red;
+            display: inline-block;
+            width: 100%;
+            height: 50px;
+            opacity: 0;
+
+            transition: opacity 1s;
+        }
+        .preview-panel img{
+          height: 100px;
+          transform: translateX(-200px);
+          transition: transform 1s;
+        }
+        .preview-panel img.slide-in{
+          transform: translate(0px);
+        }
+
+        .n-form>div:has(input:invalid)::after{
+            opacity: 1;
+        }
+        .img-label.valid{
+          background-color: green;
+        }
+        .img-label.invalid{
+          background-color: red;
+        }
+        .img-label.invalid::after{
+          content : "파일 형식이 아닙니다.";
+        }
+    </style>
+</head>
+<body>
+    <main layout:fragment="main" class="n-container mx:auto">
+        <header class="d:flex ai:center">
+            <h1 class="">메뉴 목록</h1>
+            <div class="d:flex justify-content:flex-end"><button type="button" class="n-btn n-btn-type:filled">취소</button></div>
+        </header>
+
+        <section>
+            <h1 class="d:none">폼입력</h1>
+            <form action="reg" method="post" 
+                novalidate
+                id="reg-form"
+                class="n-form n-form-type:outline-box" enctype="multipart/form-data">
+                <div>
+                  <label>
+                    <span>한글명</span>
+                    <input type="text" 
+                        name="korName" 
+                        autofocus 
+                        autocomplete="off" 
+                        required 
+                        list="menu-list"
+                        minlength="3"/>
+                        <datalist id="menu-list">
+                            <option>아메리카노</option>
+                            <option>카페라떼</option>
+                            <option>으내라떼</option>
+                            <option>규영라떼</option>
+                        </datalist>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <span>영문명</span>
+                    <input type="text" name="engName" autocomplete="off" required minlength="3" />
+                  </label>
+                </div>
+                <div>
+                  <label class="img-label">
+                    <span>이미지</span>
+                    <input class="d:none img-input" accept="image/" name="img-file" type="file"/>
+                  </label>
+                </div>
+                <div class="preview-panel d:flex flex-direction:row">
+
+                </div>
+                <div>
+                  <label>
+                    <span>가격</span>
+                    <input name="price" type="number" required min="0" max="100000" value="10000"/>
+                  </label>
+                </div>
+                <!-- 버튼별로 서브밋 켜고 끄고 싶을 때 ~ -->
+                <button formnovalidate class="btn">등록</button>
+              </form>
+        </section>
+
+    </main>
+</body>
+</html>

@@ -75,7 +75,8 @@
         </header>
         <section id="reg-form">
             <h1 class="d:none">메뉴 등록 폼</h1>
-            <form action="reg" method="post" class="n-form md:n-field-label-position:left" enctype="multipart/form-data" novalidate>
+            <form action="reg" method="post" 
+              class="n-form md:n-field-label-position:left" enctype="multipart/form-data" novalidate>
                 <div>
                   <label>
                     <span>한글명</span>
@@ -99,7 +100,7 @@
                 <div>
                   <label>
                     <span>이미지</span>
-                    <input class="d:none img-input" name="img-file" type="file" multiple/>
+                    <input class="d:none img-input" accept="image/" name="img-file" type="file" multiple/>
                     <!-- <input type="file" name="img"/> -->
                   </label>
                 </div>
@@ -120,7 +121,8 @@
                   </label>
                 </div>
                 <div>
-                  <button class="btn n-btn">등록</button>
+                    <!-- 버튼별로 서브밋 켜고 끄고 싶을 때 ~ -->
+                  <button formnovalidate class="btn">등록</button>
                 </div>
               </form>
         </section>
