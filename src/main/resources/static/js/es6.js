@@ -1,3 +1,180 @@
+// Arrow function
+{
+    {
+        let arr = [2, 3, 45, 22, 1, 5, 12];
+        arr.sort((a,b) => a-b);
+        console.log("오름차순! : ", arr);
+
+        arr.sort((a,b) => b-a);
+        console.log("내림차순! : ", arr);
+    }
+
+    {
+        let arr = [[2,3], [45,22], [1,5,12]];
+        // arr.sort((a,b)=>a[0]-b[0]);
+        // console.log(arr);
+        
+        arr.sort((a,b)=>b[0]-a[0]);
+        console.log(arr);
+    }
+
+
+    let exam = {
+        /*객체의 속성!*/
+        kor: 10,
+        eng: 20,
+
+        // total: function() {
+        //     return this.kor + this.eng;
+        // }
+        // 퀴즈! 함수를 Arrow Function으로 바꿀 수 있을까?
+        /*this.*/total:() => {
+            return this.kor+this.eng;
+        },
+        delayedPrint() {    // 얘는 exam.delayedPrint()니까 this -> exam
+            // 3초 뒤 다음 callback이 호출되면 this.kor가 undefined가 나온다. 왜?
+            // 그 이유는 setTimeout은 3초 뒤, 호출하는 주체 없이 혼자 뿅! 하고 실행되는 콜백함수. 그래서 this가 없어.....
+            
+            /*
+            setTimeout(function() {
+                console.log("delayed .. call", this.kor);
+            }.bind(this), 3000);    // this도 같이 전달하고 싶어? 대안이 있지. 그럼 this랑 bind로 엮어!
+            */
+
+            // 내 안에 this가 없는 arrow function.... 그래서 밖의 this를 쓸 수 있는....???
+            setTimeout(()=>{
+                console.log("delayed .. call", this.kor);
+            }, 3000);
+
+
+            let f1 = function() {
+                console.log(this);
+            }
+
+            /**
+             *  위의 setTimeout이 3초 뒤 호출하는 모양은 어떤 모양인가?
+             * 1. f1(); this->window
+             * 2. exam.f1(); this->exam
+             * 3. f1().apply(exam); this-> exam
+             * 
+             
+            */ 
+        }
+
+        
+    };
+
+    // 추가적인 내용 : apply, call, bind 메소드의 용법과 차이?
+    function total() {
+        return this.kor + this.eng;
+    }
+
+    // 이렇게 호출된 total에서의 this는 window 객체가 됨.
+    // total을 호출하면서 this로 사용할 객체를 전달할 수 있는 방법이 이따?
+    console.log("total : ", total());
+
+    // 1. apply를 사용하는 방법. 배열로 보내주면 됨
+    console.log("apply total : ", total.apply(exam, ["hello", "hihi"]));
+
+    // 2. call을 사용하는 방법. spread! 나열하면 됨
+    console.log("call total", total.call({kor:100, eng:90}, "good", "hi"));
+
+    // 3. bind를 사용하는 방법
+    /* 
+    방법 1, 2는 내가 함수를 호출하는 입장할 때 사용하게 됨. 
+    bind는 내가 호출을 부탁(위임)하는 경우에 객체를 지정하고 싶을때 씀 (eg. 콜백함수)
+    */
+    let aa = {
+        name: "짜장면",
+        closeCallback() {
+            console.log("머먹지? : ", this.name);
+        }
+    }
+    
+    let onclose = aa.closeCallback.bind(aa);
+
+    // 호출자는 어떻게 호출하지? 그냥 위임받은 함수를 참조하는 변수를 이용해서 call하게찌?
+    onclose();
+
+
+
+    /* 예제 1. 메소드로 사용할 수 있나?
+    this가 있다는 것은 total() 메소드를 호출할 때 exam을 this로 받는다는 것을 말하는 것이다.
+    Arrow Function은 그것(exam)을 받지 않음. 못 받음. 객체를 못 받으니 메소드를 쓸 수가 없다.
+    따라서, total() 메소드의 연산은 undefined + undefined가 되어서 NaN이 된다.
+    */
+    console.log(exam.total());
+    console.log(exam.delayedPrint());
+
+
+
+    
+
+    // 예제 2. 일반 함수로 사용할 수 있나?
+    {
+        // function add(a, b) {
+        //     console.log("arguments length : ", arguments.length);
+        //     return a+b;        
+        // }
+
+        let add = (a, b, ...args) => {
+            //console.log("arguments length : ", arguments.length);
+            console.log("rest arguments length : ", args.length);
+            return a+b;        
+        }
+
+        console.log("add(3,4,5) : ", add(3,4,5));
+        
+        console.log(exam.delayedPrint());
+    }
+
+}
+
+
+// Relation of Default value params and arguments
+// Default value
+{
+    // function add(x, y=10, z){
+    //     console.log("add = ",x,y,z);
+    // }
+    function getCount(){
+        return 3;
+    }
+
+    // 값을 리턴받는 함수도, 같은 매개변수도 인자의 기본값으로 설정할 수 있다.
+    function add(x, y=10, z=getCount(), a=z+1){
+        console.log("length = ",arguments.length);
+        console.log("add = ",x,y,z,a);
+
+        console.log("인자값 바꾸기 전",
+                    x == arguments[0],
+                    x === arguments[0],
+                    y == arguments[1],
+                    y === arguments[1],
+                    typeof arguments[1]
+                    );
+        x=60;
+        y=11;
+        console.log("인자값 바꾼 후",
+                    x == arguments[0],
+                    x === arguments[0],
+                    y == arguments[1],
+                    y === arguments[1],
+                    );
+    }
+
+    // null은 값으로 인식??
+    // add(10, null, 30);
+    // add(10, undefined, 30);
+
+    // arguments는 진짜로 메소드 호출 시 받은 인자 개수만 세어줌
+    // 메소드에서 정의한 기본값은 받은 인자로 쳐주지 않음 !
+    add(10);
+    // add(10, 30);
+    // add(undefined);
+}
+
+
 // Rest Parameter & Spread Operator
 {
     // ...args : params that except params of function sum
@@ -17,11 +194,18 @@
     console.log("sum : ", sum(2,3));
     console.log("sum : ", sum(2,3,5,2,3,6,8));
 
-    // 배열을 알아서 펼쳐서 계산해줘! spread해주라!
+    
     let kors = [20, 40, 20];
     console.log("sum spread by myself : ", sum(kors[0], kors[1], kors[2]));
+    // 배열을 알아서 펼쳐서 계산해줘! spread해주라!
     console.log("sum spread auto : ", sum(...kors));
     
+    let arr1 = [2, 3, 4];
+    //let arr2 = [6, 5, arr1]; => [6, 5, 2, 3, 4]로 나오면 좋겄는디!
+    let arr2 = [6, 5, ...arr1];
+
+    // console.log("arr2[2] : ", arr2[2]);
+    console.log("arr2 : " , arr2);
 
 }
 
