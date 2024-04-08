@@ -35,3 +35,6 @@ build/
 ### yaml files
 application-*.yaml
 application-*.yml
+
+### Git convention configuration
+.commitmessage.txt
