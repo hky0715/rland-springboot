@@ -1,3 +1,207 @@
+// Set, List, Map Collection 
+{
+    let set = new Set([3,5,2,3,4,7,5,3,6]);
+    console.log(`길이 얼매냐? : ${set.size}`);
+
+    set.delete(5);
+    console.log(`지웠지롱. 길이가 얼마냐? : ${set.size}`);
+
+    set.add(10);
+    console.log(`하나 더했지롱. 길이가 얼매냐? : ${set.size}`);
+
+    set.clear();
+    console.log(`클리어해찌롱 : ${set.size}`);
+}
+
+
+// symbol + computed property
+{
+    const getList = Symbol();
+
+    class NoticeServiceImp /*implements NoticeService*/ {
+        [getList](){
+            return "hehehe list";
+        }
+    }
+
+    class NoticeController {
+        constructor() {
+            // NoticeService service = new NoticeServiceImp();
+            this.service = new NoticeServiceImp();
+        }
+
+        printList() {
+            console.log(this.service[getList]());
+        }
+    }
+
+    let controller = new NoticeController();
+    controller.printList();
+}
+
+
+
+// Inheritance
+// 틀로 쓰긴 적합하나, 아예 그대로 가져다 쓰기엔 부족하니까 내가 고쳐 쓰겠다고!
+{
+    class Exam {
+        #kor 
+        #eng 
+        #math
+
+        constructor(kor=20, eng=0, math=0) {
+            this.#kor = kor;
+            this.#eng = eng;
+            this.#math = math;
+        }
+
+        get kor(){            return this.#kor;        }
+        set kor(value) {      this.#kor = value;       }
+        get eng(){            return this.#eng;        }
+        set eng(value) {      this.#eng = value;       }
+        get math(){           return this.#math;       }
+        set math(value) {     this.#math = value;      }
+        total() {            return this.kor + this.eng + this.math;        }
+    }
+
+    class NewlecExam extends Exam {
+        #com
+
+        constructor(com=0) {
+            super();            // super를 꼭!!!! 써야함!
+            this.#com = com;
+        }
+
+        total() {
+            return (super.total() + this.#com);
+        }
+
+        // 나한테 total이 없으니 부모에게서 물려받은 total이 this.total이 됨
+        avg() {
+            // return (this.total() + this.#com) / 4;
+            return this.total() / 4;
+        }
+    }
+
+    console.log(`newlec exam : ${new NewlecExam().total()}`);
+    console.log(`newlec exam avg : ${new NewlecExam().avg()}`);
+}
+
+
+{
+    /* JS는 클래스를 module화 하지 않는가?
+    기존엔 html의 도움을 받아 module화 되어있었다아아............. JS에서 다른 JS를 가져올 수 없었음
+    node.js는 그래서 common.js를 가져다가 모듈화를 했었음
+    이제 모듈화를 슬슬 지원하고 있다고는 하는데 아직 좀 그렇다네????? */
+
+    class Exam {
+        #kor 
+        #eng 
+        #math
+        static #staticVariable
+
+        static {
+            this.#staticVariable = 30;
+        }
+
+        static getStaticVariable() {
+            return Exam.#staticVariable;
+        }
+        
+        static get staticVariable() {
+            return Exam.#staticVariable;
+        }
+
+        constructor(kor=2, eng=0, math=0) {
+            this.#kor = kor;
+            this.#eng = eng;
+            this.#math = math;
+        }
+
+        get kor(){
+            return this.#kor;
+        }
+
+        set kor(value) {
+            this.#kor = value;
+        }
+
+        get eng(){
+            return this.#eng;
+        }
+
+        set eng(value) {
+            this.#eng = value;
+        }
+
+        get math(){
+            return this.#math;
+        }
+
+        set math(value) {
+            this.#math = value;
+        }
+        
+        // private method, only use in class
+        #total() {
+            return this.kor + this.eng + this.math;
+        }
+    }
+
+     // static 사용하기
+    // 객체를 통한게 아니라 개체명을 통해서 사용할 수 있어야 하는 것이 포인트!
+    // console.log(`Exam.#staticVariable: ${Exam.getStaticVariable()}`);
+    console.log(`Exam.#staticVariable: ${Exam.staticVariable}`);
+
+}
+
+
+// Class, OO...!
+{
+    function createExam() {
+        return class Exam {
+            #kor     // private identifier
+            #eng
+            #math
+
+            constructor(kor=2, eng=0, math=0) {
+                this.#kor = kor;
+                this.#eng = eng;
+                this.#math = math;
+            }
+
+            // getter...             getKor() {
+            get kor(){
+                return this.#kor;
+            }
+
+            set kor(value) {
+                this.#kor = value;
+            }
+
+            total() {
+                return this.kor + this.eng + this.math;
+            }
+        }
+    }
+
+    // 변수로 객체를 만드는 괴상함. 쓰지말.......
+    let ExamClass = createExam();
+    let exam = new ExamClass();
+
+    /* #을 쓰게 됨으로서 function 외부에서는 값을 직접 호출 및 대입할 수 없어, getter/setter를 부득이하게 사용해야 했음
+    하지만 es6에서! get kor, set kor 이렇게 선언해주면 이것이 getter, setter의 역할을 하며...!
+    */
+
+    // exam.setKor(exam.getKor()+1);    요랬는데
+    // exam.kor++;                      요래됐슴당
+
+    console.log(exam);
+    // console.log("ExamClass total : ", exam.total(), exam.getKor());
+    console.log("ExamClass total : ", exam.total(), exam.kor);
+}
+
+
 // Arrow function
 {
     {
@@ -9,6 +213,7 @@
         console.log("내림차순! : ", arr);
     }
 
+    // arrow function은 코드를 전달해야 하는 경우를 간결하게 하기 위한 표기법으로 시작했음^^
     {
         let arr = [[2,3], [45,22], [1,5,12]];
         // arr.sort((a,b)=>a[0]-b[0]);
