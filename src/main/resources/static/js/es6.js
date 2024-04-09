@@ -1,5 +1,165 @@
+// Promise : 성공, 실패에 대한 이벤트 처리 로직을 분리하게 해주는 객체
+{
+    // 비동기 처리 함수 2 : Promise 방식의 비동기 처리함수
+    function delayedPrint2() {
+
+        const myPromise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve("foo");
+            }, 300);
+          });
+          
+        let rand = Math.floor(Math.random()*2000)+1000;
+        console.log(value);
+
+        setTimeout(()=> {
+            console.log(value);
+            completionHandler();
+        }, rand);
+    }
+
+
+    // 비동기 처리 함수 1 : 콜백 방식의 비동기 처리함수
+    function delayedPrint(value, completionHandler, failureHandler) {
+        let rand = Math.floor(Math.random()*2000)+1000;
+        console.log(value);
+
+        setTimeout(()=> {
+            console.log(value);
+            completionHandler(); // 위임한 놈을 여기서 호출하는거지!
+            failureHandler();       // 성공이 있으면 실패 핸들러도 있어야겠지??????
+        }, rand);
+    }
+
+    /*
+    이용하는 쪽의 콜백함수의 중첩 등이 복잡하게 느껴질 수 있음.
+    함수 하나 호출하는데 대체 몇개를 해야.........
+    */
+
+    delayedPrint("Hello!", ()=>{
+        // 비동기 끝난 후에 실행되었으면 좋겠으니까 여기에 위임을 한다.
+        console.log("printed after!");
+    }, () => {
+        console.log("여기는 실패 메시지~");
+    });
+    // console.log("printed after!");
+}
+
+
+// Iterator, Generator(next 메소드를 가지는 iterator 객체를 생성해주는 녀석)
+{
+    /* Generator를 이용한 iterator 구현*/
+    class Exam {
+        constructor() {
+            // this.current = 0;
+            this.kor = 30;
+            this.eng = 40;
+            this.math = 60;
+        }
+
+        // for of가 찾는 iterator? 그거슨 바로 나야나 나야나
+        // 구현함수에 '*'을 붙이면 generator가 됨! 얘는 next()도 가지고 있어!
+        *[Symbol.iterator]() {
+            yield this.kor;
+            yield this.eng;
+            yield this.math;
+        }   
+
+        entries() {
+            let [kor, eng, math] = this;
+            return {
+                // 여기에 iterator를 구현하라구!
+                *[Symbol.iterator]() {
+                    yield ["kor", kor];
+                    yield ["eng", eng];
+                    yield ["math", math];
+                }
+            };
+        }
+    }
+
+    let exam = new Exam();
+
+    // entries가 iterator를 갖고있다면???
+    for (let [k,v] of exam.entries()) {
+        console.log(`entries?:${k},${v}`);
+    }
+
+    for (let n of exam) // for of 문은 자동적으로 Symbol.iterator이름으로 구현한 메소드를 호출! 이제 for of 쓸 수 있따~~~
+        console.log(`generator iterator : ${n}`);
+
+    /* 맨땅에서 iterator 구현
+    class Exam {
+        constructor() {
+            this.current = 0;
+            this.kor = 30;
+            this.eng = 40;
+            this.math = 60;
+        }
+
+        // for of가 찾는 iterator? 그거슨 바로 나야나 나야나
+        [Symbol.iterator]() {
+            return this;
+        }
+
+        next() {
+            this.current++;
+            switch(this.current) {
+                case 1:
+                    //return this.eng;
+                    return {done:false, value:this.kor};
+                case 2:
+                    // return this.eng;
+                    return {done:false, value:this.eng};
+                case 3:
+                    //return this.math;
+                    return {done:false, value:this.math};
+                case 4:
+                    return {done:true, value:-1};
+            }
+    
+        }
+    }
+    
+
+    let exam = new Exam();
+    for (let n of exam) // for of 문은 자동적으로 Symbol.iterator이름으로 구현한 메소드를 호출! 이제 for of 쓸 수 있따~~~
+        console.log(`iterator : ${n}`);
+
+    console.log(exam.next());
+    console.log(exam.next());
+    console.log(exam.next());
+    */
+}
+
+
+
 // Set, List, Map Collection 
 {
+    let map = new Map();
+    map.set("id", 1);
+    map.set("title", "hello");
+    map.set("content", "hehehehehe");
+
+    // 콜백함수라니.. 호달달....
+    map.forEach((v, k) => {
+        console.log("forEach : ", k, v);
+    })
+
+    /*
+    for (let entry of map.entries())
+        console.log(entry[0], entry[1]);
+    */
+
+    for (let [k,v] of map.entries())    // 뽀개기~~~
+        console.log(k, v);
+
+    for (let k of map.keys())
+        console.log(k);
+    console.log("map 끝!");
+
+    // ========================================================================================
+
     let set = new Set([3,5,2,3,4,7,5,3,6]);
     console.log(`길이 얼매냐? : ${set.size}`);
 
@@ -9,20 +169,41 @@
     set.add(10);
     console.log(`하나 더했지롱. 길이가 얼매냐? : ${set.size}`);
 
-    set.clear();
-    console.log(`클리어해찌롱 : ${set.size}`);
+    /*set.clear();
+    console.log(`클리어해찌롱 : ${set.size}`);*/
+
+    // key, index가 없어도 set을 꺼낼 수 있게? => 열거하기. enumarate? iterator?
+    console.log("Iterating ......")
+    for (let n of set) {    // collection이 반드시 iterator를 구현하고 있어야 함. for of는 collection이 추가되면서 생긴 기능이기 때문..
+        console.log(n);
+    }
 }
 
 
 // symbol + computed property
 {
+    /*
+    // define interface
     const getList = Symbol();
 
-    class NoticeServiceImp /*implements NoticeService*/ {
+    class NoticeServiceImp { //implements NoticeService
         [getList](){
             return "hehehe list";
         }
     }
+    */
+
+    class NoticeService {
+        static getList = Symbol();
+        static getById = Symbol();
+    }
+
+    class NoticeServiceImp {
+        [NoticeService.getList]() {
+            return "hehehe list";
+        }
+    }
+
 
     class NoticeController {
         constructor() {
@@ -31,7 +212,7 @@
         }
 
         printList() {
-            console.log(this.service[getList]());
+            console.log(this.service[NoticeService.getList]());
         }
     }
 

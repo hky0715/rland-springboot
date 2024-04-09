@@ -58,13 +58,11 @@ public class MenuServiceImpl implements MenuService {
         int count = repository.count(categoryId, query);
         return count;
     }
-
-    @Override
+    
     public Menu getById(Long id) {
         Menu menu = repository.findById(id);
         return menu;
     }
-    
     
     public int add(Menu menu) {
         int affected = repository.save(menu);
