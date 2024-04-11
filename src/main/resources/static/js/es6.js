@@ -1,24 +1,130 @@
 // Promise : 성공, 실패에 대한 이벤트 처리 로직을 분리하게 해주는 객체
 {
-    // 비동기 처리 함수 2 : Promise 방식의 비동기 처리함수
-    function delayedPrint2() {
+    // 비동기 처리 함수 4 : 서비스 함수의 예
+    class MenuRepository {
 
-        const myPromise = new Promise((resolve, reject) => {
-            setTimeout(() => {
-              resolve("foo");
-            }, 300);
-          });
-          
-        let rand = Math.floor(Math.random()*2000)+1000;
-        console.log(value);
+        // 업무로직이 callback을 갖고있지 않음! promise를 return함!
+        findAllPromise() {
+            /* return이 response로 와버림 ㅠㅠ..
+            response를 우리가 확인할 수 있는 객체로 변환을 해야함
+            */
+            return fetch("/api/menus")
+            // return new Promise(resolve=> {
+            //     const xhr = new XMLHttpRequest();
+            //     xhr.withCredentials = true;
 
-        setTimeout(()=> {
-            console.log(value);
-            completionHandler();
-        }, rand);
+            //     xhr.onload = function () {
+            //         const list = JSON.parse(this.responseText);
+            //         resolve(list);
+            //     };
+                
+            //     const url = `http://localhost:8080/api/menus`;
+            //     const method = "GET";
+
+            //     xhr.open(method, url);
+            //     xhr.send();
+            // });
+        }
+
+
+        // 업무로직이 callback을 갖고있어! resolve를 받자나!
+        // findAll(resolve) {
+        //     const xhr = new XMLHttpRequest();
+        //     xhr.withCredentials = true;
+
+        //     xhr.onload = function () {
+        //         const list = JSON.parse(this.responseText);
+        //         resolve(list);
+        //     };
+            
+        //     const url = `http://localhost:8080/api/menus`;
+        //     const method = "GET";
+
+        //     xhr.open(method, url);
+        //     xhr.send();
+        // }
     }
 
+    /* 리스트 받은걸 순차적으로 뿌리는 함수를 만들었는데...
+    findAllPromise는 promise를 return하기 때문에 원하는 바대로 정확히 리스트를 출력할 수 없음
+    (출력하긴 하더라.. promise 안에서 보이더라...)
+    그럴때 await, async를 쓰자!*/
+    async function printList() {
+        let repository = new MenuRepository();
+    
+        //let list = await repository.findAllPromise();
+        
+        // fetch를 쓰니까 바꿔보자
+        let response = await repository.findAllPromise();
+        let list = await response.json();
+        console.log("Print list!!! : ", list);
+    }
 
+    printList();
+
+    let repository = new MenuRepository();
+    // promise call method 1 : to seperate
+    let promise = repository.findAllPromise();
+
+    promise
+    .then(response=>response.json())    // fetch함수가 반환할때는 response객체를 통해서 상태값이 같이 전달됨. 
+    .then(list=>{
+        return list[0];
+    })
+    // 미들웨어처럼ㅋㅋㅋㅋㅋ 넣었다 뺐다 할 수 있따~~~
+    .then(menu=>{
+        return menu.korName;
+    })
+    .then(korName=>{
+        console.log("1", korName);
+    });
+
+    promise
+    .then(list=>list[0])
+    .then(menu=>menu.korName)
+    .then(korName=>console.log("2", korName));
+
+
+    /*
+    let repository = new MenuRepository();
+    repository.findAll(list=>{
+        console.log(list);
+    });
+    */
+
+    // 비동기 처리 함수 2 : Promise 방식의 비동기 처리함수
+    function delayedPrint1(value) {
+        
+        // 만들어진 promise객체~
+        const promise = new Promise((resolve, reject) => {
+            let rand = Math.floor(Math.random()*2000)+1000;
+            
+            setTimeout(()=> {
+                console.log(value);
+                resolve();
+                
+                // reject();
+            }, rand);
+        });
+
+        return promise;
+    }
+    
+    let pr = delayedPrint1("heheheehe!!!!!!!!!!!");
+    pr.then(()=>{
+        console.log("printed1 after");
+    });
+
+    // 비동기 처리 함수 3: async와 await를 이용한 동기식 호출이 가능하게 하기(promise를 사용하기 위해 ㄷㄷㄷㅈ)
+    // await가 없다면 delayPrint1이 실행되기 전에 console.log을 실행하겠지만.. await가 있다면 동기식으로 진행하게 됨
+    (async () => {
+        await delayedPrint1("내 밑의 놈들은 내가 끝날때까지 기둘려라 하하");
+        console.log("printed async");
+    })();
+
+
+
+    
     // 비동기 처리 함수 1 : 콜백 방식의 비동기 처리함수
     function delayedPrint(value, completionHandler, failureHandler) {
         let rand = Math.floor(Math.random()*2000)+1000;
@@ -27,13 +133,13 @@
         setTimeout(()=> {
             console.log(value);
             completionHandler(); // 위임한 놈을 여기서 호출하는거지!
-            failureHandler();       // 성공이 있으면 실패 핸들러도 있어야겠지??????
+            //failureHandler();       // 성공이 있으면 실패 핸들러도 있어야겠지??????
         }, rand);
     }
 
     /*
     이용하는 쪽의 콜백함수의 중첩 등이 복잡하게 느껴질 수 있음.
-    함수 하나 호출하는데 대체 몇개를 해야.........
+    함수 하나 호출하는데 대체 몇개를 해야......... 값도 안보이고...........
     */
 
     delayedPrint("Hello!", ()=>{
