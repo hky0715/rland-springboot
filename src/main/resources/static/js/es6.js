@@ -1,10 +1,49 @@
+import m1test1, {test2} from 'gm';//'./module1.js';
+import m2test1, {test2 as m2test2} from './module2.js';
+{ //Modules
+    
+    m1test1();
+    m2test2();
+
+    let rand = 1;
+
+    if (rand == 1) {
+        import("./module1.js")              // promise를 반환
+        .then(({default:test1, test2})=>{
+            test1();
+            test2();
+        });
+        /*
+        import("./module1.js")
+        .then((m1)=>{
+            m1.test2();
+            m1.default();
+        });
+        */
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Promise : 성공, 실패에 대한 이벤트 처리 로직을 분리하게 해주는 객체
 {
     // 비동기 처리 함수 4 : 서비스 함수의 예
     class MenuRepository {
 
         // 업무로직이 callback을 갖고있지 않음! promise를 return함!
-        findAllPromise() {
+        findAllPromise() {  
             /* return이 response로 와버림 ㅠㅠ..
             response를 우리가 확인할 수 있는 객체로 변환을 해야함
             */
@@ -79,10 +118,10 @@
         console.log("1", korName);
     });
 
-    promise
-    .then(list=>list[0])
-    .then(menu=>menu.korName)
-    .then(korName=>console.log("2", korName));
+    // promise
+    // .then(list=>list[0])
+    // .then(menu=>menu.korName)
+    // .then(korName=>console.log("2", korName));
 
 
     /*
@@ -465,10 +504,12 @@
             set kor(value) {
                 this.#kor = value;
             }
-
+            
+            
             total() {
                 return this.kor + this.eng + this.math;
             }
+            
         }
     }
 
