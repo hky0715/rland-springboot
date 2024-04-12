@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="es6.js"></script>
+
+    <!--Importing modules using import maps-->
+    <script type="importmap">
+        {
+          "imports": {
+            "gm": "./module1.js"
+          }
+        }
+      </script>
+    <script type="module" src="es6-1.js"></script>
 </head>
 <body>
     
