@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script type="module" src="room.js" defer></script>
+    <script type="module" src="app.js" defer></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/newtil-css@0.1.48/dist/style.css" />
     <!-- style : 만들어진 캔버스를 잡아 늘리는 것... canvas에 직접 기술하는 것은 애초에 캔버스를 크게 만드는 것
         <style>
@@ -18,7 +18,9 @@
     <section id="game-section">
         <h1 class="d:none"></h1>
         <div>
-            <canvas class="room" width="600" height="300"></canvas>
+            <canvas class="room" width="1000" height="1000"></canvas>
+            <img id="map" class="d:none" src="./res/map.png">
+            <img id="boy" class="d:none" src="./res/boy.png">
         </div>
     </section>
 </body>
