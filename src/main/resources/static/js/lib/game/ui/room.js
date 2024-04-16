@@ -4,6 +4,7 @@ export default class Room {
     #ctx
     #boy
     #canvas
+    #timerId
     constructor() {
         const gameSection = document.querySelector("#game-section");
         this.#canvas = gameSection.querySelector(".room");
@@ -17,11 +18,14 @@ export default class Room {
         this.#img.src = './res/map.png';
 
         this.#boy = new Boy();
+        this.run();
+
     }
 
     clickHandler(e) {
         // this.#boy.move(e.clientX, e.clientY);
         this.#boy.move(e.x, e.y);
+        // 상태 변경이 일어나면 다시 그려라아
         this.#boy.draw(this.#ctx);
 
     }
@@ -43,6 +47,22 @@ export default class Room {
     }
 
     update() {
+        this.#boy.update();
+    }
 
+    run() {
+        /* interval을 끌 수도 있어야지! 그럼 어떤 interval을 끌거지?
+        이에 해당하는 것이 timerId...*/
+        // 매번 배경-사람, 배경-사람을 그림
+        this.#timerId = setInterval(() => {
+            this.draw();
+            this.update();
+
+        }, 1000/60);
+
+    }
+
+    stop() {
+        clearInterval(this.#timerId);
     }
 }
