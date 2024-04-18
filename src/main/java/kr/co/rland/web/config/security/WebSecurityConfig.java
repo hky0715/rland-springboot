@@ -38,6 +38,14 @@ public class WebSecurityConfig {
     }
 
     // method chaining
+    /* 권한, 인가 관리를 Security Filter Chain이 알아서 한다. 모든 페이지에 들어가기 전에 필터체인이 먼저 걷어채서, 앞단에서 filtering해준다
+    filtering하기 위해서는 멤버정보를 먼저 얻어내야하니까..! userDetails이 필요하지.
+    userDetails =>
+    1: 메모리, DB를 써야하니까 이건 별루.......
+    2: JDBC, userDetailsService에는 role, username, password밖에 없었지.
+    그래서 추가로 필요한 정보를 successful handler를 구현해서 세션에 담아서 쓸 수 있지만.... 세션과 쿠키를 사용하기 보다는!
+    3: userDetailsService를 내가 원하는대로 커스터마이징해서 쓰기로 했다
+     */
     @Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
