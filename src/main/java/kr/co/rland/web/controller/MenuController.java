@@ -81,6 +81,7 @@ public class MenuController {
         int cartTotalPrice = 0;
         int cartCount = 0;
 
+        System.out.println(menuList.get(0).isLike());
         
         /* List 객체로 다시 변환해야함!
         (X) List<MenuView> cookieList = new Gson().fromJson(cookie, List.class);

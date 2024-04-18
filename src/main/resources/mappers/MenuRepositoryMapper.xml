@@ -10,21 +10,36 @@
 	</resultMap> -->
 	
 	<!--<select id="findAll" resultMap="menuMap">-->
-	<select id="findAll" resultType="MenuView">
-		select
+	<select id="findAll" resultType="MenuView" >
+		select 
 			*
-		from menu_view
+		from (
+				SELECT 
+					m.id AS id,
+					m.kor_name AS kor_name,
+					m.eng_name AS eng_name,
+					m.price AS price,
+					m.img AS img,
+					m.reg_date AS reg_date,
+					m.category_id AS category_id,
+					COUNT(ml.menu_id) AS like_count,
+					ifnull(ml.member_id=3,0) `like`
+				FROM
+					(menu m
+					LEFT JOIN menu_like ml ON (m.id = ml.menu_id))
+				GROUP BY m.id
+				) mv
 		<where>
 			<if test="categoryId != null">
-				category_id = #{categoryId}
+				mv.category_id = ${categoryId}
 			</if>
 			<if test="query != null">
-				kor_name like '%${query}%'
+				and mv.kor_name like '%${query}%'
 			</if>
 		</where>
-		order by reg_date desc
-		limit #{offset}, #{size}
-	</select>
+		order by mv.reg_date desc
+		LIMIT #{offset}, #{size}
+   </select>
 
 	<select id="findById" resultType="Menu">
 		select

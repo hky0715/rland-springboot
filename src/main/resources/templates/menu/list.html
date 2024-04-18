@@ -101,17 +101,15 @@
                   >
                 </div>
                 <div class="img-block">
-                  <a href="detail.html?id=1" th:href="@{./detail(id=${ml.id})}"
-                    ><img src="/image/menu/8.jpg"
-                  /></a>
+                  <a href="detail.html?id=1" th:href="@{./detail(id=${ml.id})}">
+                    <img src="/image/menu/8.jpg"/>
+                  </a>
                 </div>
                 <div class="like-block d:flex justify-content:flex-end">
-                  <a class="icon icon-heart icon-color:base-4" href=""
-                    >좋아요</a
-                  >
-                  <span class="font-weight:bold ml:1" th:text="${ml.likeCount}"
-                    >2</span
-                  >
+                  <a class="icon icon-heart icon-color:base-4" th:classappend="${ml.like} eq true ? 'icon-heart-fill' : 'icon-heart'" href="">좋아요</a>
+                  <!-- <a class="icon icon-heart icon-heart-fill icon-color:base-4" href="">좋아요</a> -->
+                  <span class="font-weight:bold ml:1" th:text="${ml.likeCount}">2</span>
+                  <span th:text="${ml.like}">-1</span>
                 </div>
                 <div class="pay-block d:flex">
                   <!-- <a
@@ -134,11 +132,7 @@
                       담기
                     </button>
                   </form>
-                  <a
-                    class="icon md:icon:none icon-card icon-color:base-0 color:base-0 btn-type:icon btn-card md:btn-type:text"
-                    href=""
-                    >주문하기</a
-                  >
+                  <a class="icon md:icon:none icon-card icon-color:base-0 color:base-0 btn-type:icon btn-card md:btn-type:text" href="">주문하기</a>
                 </div>
               </section>
             </div>
@@ -184,8 +178,7 @@
                   th:href="@{./list(p=${n})}"
                   th:text="${n}"
                   href="list?p=1"
-                  >1</a
-                >
+                  >1</a>
               </li>
               <li>
                 <span th:if="${lastnum} lt ${startnum+5}">다음</span>
@@ -193,8 +186,7 @@
                   th:if="${lastnum} ge ${startnum+5}"
                   th:href="@{./list(p=${startnum+5})}"
                   href="list?p=6"
-                  >다음</a
-                >
+                  >다음</a>
               </li>
             </ul>
           </section>
@@ -212,8 +204,7 @@
               href="/basket/list"
               class="icon icon-basket_outline icon-color:base-0 icon-size:4 icon-text-with"
               th:text="${cartCount}"
-              >1</a
-            >
+              >1</a>
           </dd>
         </dl>
       </section>
