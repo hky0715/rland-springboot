@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.rland.web.repository.MenuLikeRepository">
+	<insert id="save" parameterType="MenuLike">
+		INSERT INTO menu_like
+		(member_id, menu_id)
+        VALUES
+        (#{memberId}, #{menuId})
+	</insert>
+
+    <delete id="delete" parameterType="MenuLike">
+        DELETE from menu_like
+        WHERE member_id = #{memberId} and menu_id = #{menuId}
+    </delete>
+</mapper>

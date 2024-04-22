@@ -22,8 +22,10 @@
 					m.img AS img,
 					m.reg_date AS reg_date,
 					m.category_id AS category_id,
-					COUNT(ml.menu_id) AS like_count,
-					ifnull(ml.member_id=3,0) `like`
+					COUNT(ml.menu_id) AS like_count
+					<!-- <if test="memberId != null"> -->
+					, nvl(ml.member_id=${memberId},0) AS `like`
+					<!-- </if> -->
 				FROM
 					(menu m
 					LEFT JOIN menu_like ml ON (m.id = ml.menu_id))

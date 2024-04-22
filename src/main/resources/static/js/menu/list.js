@@ -76,10 +76,9 @@ Cookie.prototype = {
     for (var c of this.map["menus"]) {
       //str += c; // this.map에 있는 내용을 돌면서 넣어야 함......
       str += JSON.stringify(c);
-      if (c !== list[lastIndex]) 
-        str += ",";
+      if (c !== list[lastIndex]) str += ",";
     }
-    
+
     str += "]";
 
     var encodedCookie = decodeURIComponent(str);
@@ -117,25 +116,35 @@ window.addEventListener("load", function () {
   var menuContent = menuCardList.getElementsByClassName("content")[0];
 
   menuContent.onclick = function (e) {
-    if (!e.target.classList.contains("btn-cart")) return;
+    let isValid = e.target.classList.contains("btn-cart") || e.target.classList.contains("icon-heart");
 
-    //alert("haha");
+    if (!isValid) return;
 
-    var item = {};
-    item.id = e.target.dataset.id;
-    item.korName = e.target.dataset.korname;
-    item.engName = e.target.dataset.engname;
-    item.price = e.target.dataset.price;
-    item.regDate = e.target.dataset.regdate;
-    item.img = e.target.dataset.img;
-    item.categoryId = e.target.dataset.categoryid;
+    console.log("valid");
 
-    e.preventDefault();
+    // icon-heart handler
+    {
+      // /api/menu-likes, POST : 데이터만 주는....
+    }
 
-    cookie.addItem("menus", item);
-    cookie.save();
+    // btn-cart handler
+    {
+      var item = {};
+      item.id = e.target.dataset.id;
+      item.korName = e.target.dataset.korname;
+      item.engName = e.target.dataset.engname;
+      item.price = e.target.dataset.price;
+      item.regDate = e.target.dataset.regdate;
+      item.img = e.target.dataset.img;
+      item.categoryId = e.target.dataset.categoryid;
 
-    console.log(cookie);
+      e.preventDefault();
+
+      cookie.addItem("menus", item);
+      cookie.save();
+
+      //console.log(cookie);
+    }
   };
 
   // var payBlock = document.querySelector(".pay-block");

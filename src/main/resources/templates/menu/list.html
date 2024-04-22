@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="inc/layout" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="inc/layout">
   <head>
     <link href="/css/components/menu/card.css" rel="stylesheet" type="text/css" />
     <link href="/css/components/menu/menu-filter.css" rel="stylesheet" type="text/css" />
@@ -22,23 +19,10 @@
               <h1 class="d:none">카테고리 검색 메뉴 목록</h1>
               <ul>
                 <li>
-                  <a
-                    class="sm:deco md:deco sm:icon-filter_list"
-                    href="list"
-                    th:class="${param.c}==null? 'current'"
-                    >전체메뉴</a
-                  >
+                  <a class="sm:deco md:deco sm:icon-filter_list" href="list" th:class="${param.c}==null? 'current'">전체메뉴</a>
                 </li>
                 <li th:each="cl:${cList}">
-                  <a
-                    class="d:none md:d:inline"
-                    href="?c=1"
-                    th:data-id="${cl.id}"
-                    th:class="${{param.c}}==${cl.id}? 'current'"
-                    th:href="@{./list(c=${cl.id})}"
-                    th:text="${cl.name}"
-                    >커피</a
-                  >
+                  <a class="d:none md:d:inline" href="?c=1" th:data-id="${cl.id}" th:class="${{param.c}}==${cl.id}? 'current'" th:href="@{./list(c=${cl.id})}" th:text="${cl.name}">커피</a>
                 </li>
 
                 <!--
@@ -58,12 +42,7 @@
                 <fieldset>
                   <legend class="d:none">이름 검색</legend>
                   <!--input id="query-input"에서 class="query-input"으로 변경함-->
-                  <input
-                    class="query-input"
-                    type="text"
-                    placeholder="메뉴 검색"
-                    name="q"
-                  />
+                  <input class="query-input" type="text" placeholder="메뉴 검색" name="q" />
                   <!--<input type="hidden" name="c" />-->
                   <button class="icon icon-find">검색</button>
                 </fieldset>
@@ -78,38 +57,21 @@
             <div class="content fade">
               <section class="menu-card" th:each="ml:${mList}">
                 <h1>
-                  <a
-                    class="heading-3"
-                    href="detail.html?id=1"
-                    th:href="@{./detail(id=${ml.id})}"
-                    th:text="${ml.korName}"
-                  >
-                    카페라떼
-                  </a>
+                  <a class="heading-3" href="detail.html?id=1" th:href="@{./detail(id=${ml.id})}" th:text="${ml.korName}"> 카페라떼 </a>
                 </h1>
-                <h2
-                  class="heading-2 font-weight:normal color:base-5"
-                  th:text="${ml.engName}"
-                >
-                  Cafe Latte
-                </h2>
+                <h2 class="heading-2 font-weight:normal color:base-5" th:text="${ml.engName}">Cafe Latte</h2>
                 <div class="price-block d:flex align-items:flex-end">
-                  <span class="font-weight:bold" th:text="${ml.price}"
-                    >4,500</span
-                  >원<span class="soldout-msg ml:auto mr:auto md:d:none"
-                    >SOLD OUT</span
-                  >
+                  <span class="font-weight:bold" th:text="${ml.price}">4,500</span>원<span class="soldout-msg ml:auto mr:auto md:d:none">SOLD OUT</span>
                 </div>
                 <div class="img-block">
                   <a href="detail.html?id=1" th:href="@{./detail(id=${ml.id})}">
-                    <img src="/image/menu/8.jpg"/>
+                    <img src="/image/menu/8.jpg" />
                   </a>
                 </div>
                 <div class="like-block d:flex justify-content:flex-end">
                   <a class="icon icon-heart icon-color:base-4" th:classappend="${ml.like} eq true ? 'icon-heart-fill' : 'icon-heart'" href="">좋아요</a>
                   <!-- <a class="icon icon-heart icon-heart-fill icon-color:base-4" href="">좋아요</a> -->
                   <span class="font-weight:bold ml:1" th:text="${ml.likeCount}">2</span>
-                  <span th:text="${ml.like}">-1</span>
                 </div>
                 <div class="pay-block d:flex">
                   <!-- <a
@@ -154,12 +116,7 @@
             >
               <li>
                 <span th:if="${page} lt 6">이전</span>
-                <a
-                  th:if="${{page}} ge 6"
-                  th:href="@{./list(p=${startnum-1})}"
-                  href="list?p=1"
-                  >이전</a
-                >
+                <a th:if="${{page}} ge 6" th:href="@{./list(p=${startnum-1})}" href="list?p=1">이전</a>
               </li>
               <!--
               <li
@@ -168,25 +125,13 @@
                 th:class="${{param.p}} eq ${n}? 'active' : ''"
               >
               -->
-              <li
-                th:each="n : ${#numbers.sequence(startnum,startnum+4)}"
-                th:class="${{param.p}} eq ${n}? 'active' : ''"
-              >
+              <li th:each="n : ${#numbers.sequence(startnum,startnum+4)}" th:class="${{param.p}} eq ${n}? 'active' : ''">
                 <span th:if="${n} gt ${lastnum}" th:text="${n}"></span>
-                <a
-                  th:if="${n} le ${lastnum}"
-                  th:href="@{./list(p=${n})}"
-                  th:text="${n}"
-                  href="list?p=1"
-                  >1</a>
+                <a th:if="${n} le ${lastnum}" th:href="@{./list(p=${n})}" th:text="${n}" href="list?p=1">1</a>
               </li>
               <li>
                 <span th:if="${lastnum} lt ${startnum+5}">다음</span>
-                <a
-                  th:if="${lastnum} ge ${startnum+5}"
-                  th:href="@{./list(p=${startnum+5})}"
-                  href="list?p=6"
-                  >다음</a>
+                <a th:if="${lastnum} ge ${startnum+5}" th:href="@{./list(p=${startnum+5})}" href="list?p=6">다음</a>
               </li>
             </ul>
           </section>
@@ -200,11 +145,7 @@
           <dd class="ml:2" th:text="${cartTotalPrice}">5,000원</dd>
           <dt class="d:none">수량</dt>
           <dd class="ml:auto">
-            <a
-              href="/basket/list"
-              class="icon icon-basket_outline icon-color:base-0 icon-size:4 icon-text-with"
-              th:text="${cartCount}"
-              >1</a>
+            <a href="/basket/list" class="icon icon-basket_outline icon-color:base-0 icon-size:4 icon-text-with" th:text="${cartCount}">1</a>
           </dd>
         </dl>
       </section>

@@ -9,9 +9,10 @@ import kr.co.rland.web.entity.MenuView;
 
 @Mapper
 public interface MenuRepository {
-    //@Select("select * from menu")
-    //List<MenuView> findAll();
-    List<MenuView> findAll(Long categoryId, String query, int offset, int size);
+    // @Select("select * from menu")
+    // List<MenuView> findAll();
+    // 꼭 넣어야 하는 값은 앞에, 넣지 않아도 되는 값은 뒤에!
+    List<MenuView> findAll(Long memberId, Long categoryId, String query, int offset, int size);
 
     Menu findById(Long id);
     // List<MenuView> findAllByName(String name);

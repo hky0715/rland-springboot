@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -18,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import jakarta.servlet.http.HttpServletResponse;
+import kr.co.rland.web.config.security.WebUserDetails;
 import kr.co.rland.web.entity.Category;
 import kr.co.rland.web.entity.Menu;
 import kr.co.rland.web.entity.MenuView;
@@ -44,12 +46,18 @@ public class MenuController {
     
     @GetMapping("list")
     public String list(
-        @RequestParam(name="c", required = false) Long categoryId,
-        @RequestParam(name="q", required = false) String query, 
-        @RequestParam(name="p", required = false, defaultValue = "1") Integer page, 
-        @CookieValue(name="menus", required = false) String cookie,
-        HttpServletResponse response,
-        Model model) {
+        @RequestParam(name="c", required = false) Long categoryId
+        , @RequestParam(name="q", required = false) String query
+        , @RequestParam(name="p", required = false, defaultValue = "1") Integer page
+        , @CookieValue(name="menus", required = false) String cookie
+        , @AuthenticationPrincipal WebUserDetails userDetails
+        , HttpServletResponse response
+        , Model model) {
+
+        Long memberId = null;
+        // param으로 받아온 사용자 정보가 null이 아니라면 memberId에 사용자 정보를 get해서 넣음
+        if (userDetails != null)
+            memberId = userDetails.getId();
 
         System.out.println("category:"+categoryId);
         System.out.println("page:"+page);
@@ -60,17 +68,17 @@ public class MenuController {
         int count=0;
 
         if (categoryId != null) {
-            menuList = service.getList(page, categoryId);
+            menuList = service.getList(memberId, page, categoryId);
             count = service.getCount(categoryId);
         }
 
         else if (query != null) {
-            menuList = service.getList(page, query);
+            menuList = service.getList(memberId, page, query);
             count = service.getCount(query);
         }
 
         else {
-            menuList = service.getList(page);
+            menuList = service.getList(memberId, page);
             count = service.getCount();
         }     
 

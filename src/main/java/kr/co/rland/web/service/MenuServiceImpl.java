@@ -16,26 +16,26 @@ public class MenuServiceImpl implements MenuService {
     private MenuRepository repository;
 
     @Override
-    public List<MenuView> getList(Integer page) {
-        return getList(page, null, null);
+    public List<MenuView> getList(Long memberId, Integer page) {
+        return getList(memberId, page, null, null);
     }
 
     @Override
-    public List<MenuView> getList(Integer page, Long categoryId) {
-        return getList(page, categoryId, null);
+    public List<MenuView> getList(Long memberId, Integer page, Long categoryId) {
+        return getList(memberId, page, categoryId, null);
     }
 
     @Override
-    public List<MenuView> getList(Integer page, String query) {
-        return getList(page, null, query);
+    public List<MenuView> getList(Long memberId, Integer page, String query) {
+        return getList(memberId, page, null, query);
     }
 
-    public List<MenuView> getList(Integer page, Long categoryId, String query) {
+    public List<MenuView> getList(Long memberId, Integer page, Long categoryId, String query) {
         //page -> offset, size
         int size = 6;
         int offset = (page-1)*size;
 
-        List<MenuView> list = repository.findAll(categoryId, query, offset, size);
+        List<MenuView> list = repository.findAll(memberId, categoryId, query, offset, size);
         return list;
     }
 
