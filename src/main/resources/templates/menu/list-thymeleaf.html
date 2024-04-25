@@ -7,7 +7,6 @@
     <link href="/css/components/menu/list.css" rel="stylesheet" type="text/css" />
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="/js/menu/list-vue.js" defer></script>
-    <!-- <script src="/js/menu/list.js" defer></script> -->
   </head>
   <body>
     <main layout:fragment="main">
@@ -57,11 +56,11 @@
           <section class="menu-card-list" id="menu-card-list">
             <h1 class="d:none">메뉴 목록</h1>
             <div class="content fade">
-              <section class="menu-card" th:each="ml:${mList}">
+              <section class="menu-card" th:each="ml:${mList}" v-for="ml in list">
                 <h1>
-                  <a class="heading-3" href="detail.html?id=1" th:href="@{./detail(id=${ml.id})}" th:text="${ml.korName}"> 카페라떼 </a>
+                  <a class="heading-3" href="detail.html?id=1" th:href="@{./detail(id=${ml.id})}" v-text="ml.korName" th:text="${ml.korName}"> 카페라떼 </a>
                 </h1>
-                <h2 class="heading-2 font-weight:normal color:base-5" th:text="${ml.engName}">Cafe Latte</h2>
+                <h2 class="heading-2 font-weight:normal color:base-5" v-text="ml.engName" th:text="${ml.engName}">Cafe Latte</h2>
                 <div class="price-block d:flex align-items:flex-end">
                   <span class="font-weight:bold" th:text="${ml.price}">4,500</span>원<span class="soldout-msg ml:auto mr:auto md:d:none">SOLD OUT</span>
                 </div>
@@ -151,9 +150,6 @@
           </dd>
         </dl>
       </section>
-      <script>
-        console.log("body main end");
-      </script>
     </main>
   </body>
 </html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="inc/layout"
+>
+<head>
+    <link href="/css/components/menu/card.css" rel="stylesheet" type="text/css">
+    <link href="/css/components/menu/menu-filter.css" rel="stylesheet" type="text/css">
+    <link href="/css/components/menu/basket-status.css" rel="stylesheet" type="text/css">
+    <link href="/css/components/menu/list.css" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="/js/menu/list-vue.js" defer></script>
+</head>
+<body>
+    <main layout:fragment="main">    
+        <section class="menu-list">
+            <h1 class="d:none">메뉴 검색 목록</h1>
+            <div>
+                <section class="menu-filter">
+                    <h1>Rland Menu<span class="d:none">검색</span></h1>
+            
+                    <nav class="category-filter">              
+                        
+                        <h1 class="d:none">카테고리 검색 메뉴 목록</h1>
+                        <ul>
+                            <li><a class="sm:deco md:deco sm:icon-filter_list"                                    
+                                    href="list">전체메뉴</a></li>
+                            <li>
+                                <a class="d:none md:d:inline current" 
+                                href="?c=1">커피</a></li>
+                        </ul>
+                    </nav>
+                    <section class="query-filter" id="query-form">
+                        <h1 class="d:none">이름 검색 폼</h1>
+                        <form action="list" method="get">
+                            <fieldset>
+                                <legend class="d:none">이름 검색</legend>
+                                <input class="query-input" type="text" placeholder="메뉴 검색" name="q" value="">
+                                <button class="icon icon-find" @click.prevent="queryClickHandler">검색</button>
+                            </fieldset>
+                        </form>
+                    </section>
+                </section>
+
+                <!-- ------------------------------------------------------ -->
+
+                <section class="menu-card-list" id="menu-card-list">
+                    <h1 class="d:none">메뉴 목록</h1>
+                    <div class="content fade">
+                        <section class="menu-card" v-for="m in list">
+                            <h1>
+                                <a class="heading-3" href="detail.html" v-text="m.korName">카페라떼1</a></h1>
+                            <h2 class="heading-2 font-weight:normal color:base-5" v-text="m.engName">Cafe Latte</h2>
+                            <div class="price-block d:flex align-items:flex-end">
+                                <span class="font-weight:bold" v-text="m.price">4,500</span>원
+                                <span class="soldout-msg ml:auto mr:auto md:d:none">SOLD OUT</span></div>
+                            <div class="img-block">
+                                <a v-bind:href="'detail?id=' + m.id">
+                                    <img :src="m.img" /> <!--src="/image/menu/8.jpg"-->
+                                </a>
+                            </div>
+                            <div class="like-block d:flex justify-content:flex-end">
+                                <!-- <a class="icon icon-heart icon-color:base-4" href="" >좋아요</a> -->
+                                <a class="icon icon-heart icon-color:base-4" :class="{'icon-heart-fill' : m.like}" href="" >좋아요</a>
+                                <span class="font-weight:bold ml:1" v-text="m.likeCount">2</span>                                
+                            </div>
+                            <div>
+                                <button>삭제</button>
+                            </div>
+                            <div class="pay-block d:flex">
+                                <!-- <a class="icon md:icon:none icon-cart icon-color:base-0 color:base-0 btn-type:icon btn-cart md:btn-type:text" href="">담기</a> -->
+                                <form action="/cart/add-menu" method="post">
+                                    <input type="hidden" name="id">
+                                    
+                                    <button                                                                             
+                                        class="icon md:icon:none icon-cart icon-color:base-0 color:base-0 btn-type:icon btn-cart md:btn-type:text">
+                                        담기
+                                    </button>
+                                </form>
+                                <a class="icon md:icon:none icon-card icon-color:base-0 color:base-0 btn-type:icon btn-card md:btn-type:text" href="">주문하기</a>
+                            </div>
+                        </section>                        
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section style="" class="mb:5">
+            <h1 class="d:none">페이저</h1>
+            <div>0</div>
+            <div>0</div>
+            <ul class="n-pager" style="display:flex; justify-content: center;">
+                
+                <li>
+                    <span>이전</span>
+                    <a href="list?p=1">이전</a>
+                </li>
+                
+                <li>
+                    <span>1</span>
+
+                    <a href="list?p=1">1</a>
+                </li>
+                
+                <li>
+                    <span >다음</span>
+                    <a href="list?p=12">다음</a>
+                </li>
+            </ul>
+        </section>
+        <section class="basket-status">
+            <h1 class="d:none">Basket Bar</h1>
+            <dl class="ph:3">
+                <dt>금액</dt>
+                <dd class="ml:2">5,000원</dd>
+                <dt class="d:none">수량</dt>
+                <dd class="ml:auto">
+                    <a href="/basket/list" 
+                        class="icon icon-basket_outline icon-color:base-0 icon-size:4 icon-text-with"
+                    >1</a>
+                </dd>
+            </dl>
+        </section>
+        
+    </main>
+</body>
+</html>
