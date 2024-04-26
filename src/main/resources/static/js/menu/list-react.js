@@ -1,6 +1,34 @@
 // 주 업무를 맡고 있는 놈들은 class로 만들어서 지역화 하고..?
 class Main extends React.Component {
 
+    // 출력방향으로의 1-way model : state
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            list:[{},{}],
+            query:""
+        };
+    }
+
+    queryClickHandler(e) {
+        e.preventDefault();
+        console.log("queryClicked");
+    }
+
+    // 화면이 보여지면 실행
+    async componentDidMount() {
+        console.log("mount");
+        let response = await fetch("/api/menus");
+        let list = await response.json();
+        this.setState({list});
+    }
+
+    // 화면이 갱신되면 실행, setState하면 실행되겠땅
+    componentDidUpate() {
+        console.log("update");
+    }
+
     render() {
         return <>
             <section className="menu-list">
@@ -22,11 +50,20 @@ class Main extends React.Component {
                     </nav>
                     <section className="query-filter" id="query-form">
                         <h1 className="d:none">이름 검색 폼</h1>
-                        <form action="list" method="get">
+                        <form action="list-react" method="get">
                             <fieldset>
                                 <legend className="d:none">이름 검색</legend>
-                                <input className="query-input" type="text" placeholder="메뉴 검색" name="q"/>
-                                <button className="icon icon-find">검색</button>
+                                {/* <input className="query-input" type="text" placeholder="메뉴 검색" name="q" value=""/> */}
+                                <input className="query-input" type="text" placeholder="메뉴 검색" name="q" 
+                                    value={this.state.query} 
+                                    onChange={(e)=>{
+                                        this.state.count++;             // count++해도 value로 화면이 갱신이 안 되네? 2way가 아니니까...? 
+                                        console.log("호홍홍홍");
+                                        console.log(this.state.count);
+                                        this.setState({query:e.target.value})}       // 렌더링을 하고싶다면 새로운 state version을 셋팅하렴! 아예 새로운 state 객체 단위로 셋팅된다...
+                                                                                     // 상태가 바뀌었어요~ 라고 알려주는 setState. 렌더링을 다시 발생시킴
+                                }/>
+                                <button className="icon icon-find" onClick={this.queryClickHandler}>검색</button>
                             </fieldset>
                         </form>
                     </section>
@@ -37,11 +74,18 @@ class Main extends React.Component {
                 <section className="menu-card-list" id="menu-card-list">
                     <h1 className="d:none">메뉴 목록</h1>
                     <div className="content fade">
+
+                    {
+                        // this.state.list.map(m=><div>{m.korName}</div>)
+                        this.state.list.map(m=>
+
                         <section className="menu-card">
                             <h1>
                                 <a className="heading-3" href="detail.html">카페라떼1</a></h1>
                             <h2 className="heading-2 font-weight:normal color:base-5">Cafe Latte</h2>
-                            <div className="price-block d:flex align-items:flex-end"><span className="font-weight:bold">4,500</span>원<span className="soldout-msg ml:auto mr:auto md:d:none">SOLD OUT</span></div>
+                            <div className="price-block d:flex align-items:flex-end"><span className="font-weight:bold">4,500</span>원
+                                <span className="soldout-msg ml:auto mr:auto md:d:none">SOLD OUT</span>
+                            </div>
                             <div className="img-block">
                                 <a href="detail.html?id=1">
                                     <img src="/image/menu/8.jpg" />                                      
@@ -66,7 +110,8 @@ class Main extends React.Component {
                                 </form>
                                 <a className="icon md:icon:none icon-card icon-color:base-0 color:base-0 btn-type:icon btn-card md:btn-type:text">주문하기</a>
                             </div>
-                        </section>                        
+                        </section>) 
+                    }                       
                     </div>
                 </section>
             </div>
@@ -76,7 +121,7 @@ class Main extends React.Component {
             <h1 className="d:none">페이저</h1>
             <div>0</div>
             <div>0</div>
-            <ul className="n-pager" style={{display:"flex", "justify-content": "center"}}>
+            <ul className="n-pager" style={{display:"flex", justifyContent: "center"}}>
                 
                 <li>
                     <span>이전</span>
@@ -112,11 +157,14 @@ class Main extends React.Component {
     }
 }
 
+const root = ReactDOM.createRoot(document.querySelector("#main"));
+root.render(<Main/>);
 
-ReactDOM.render( 
-    <Main/> , 
-    document.querySelector("#main")
-)
+// 얘는 v17까지 썼던 버전이라 createRoot로 바꾸란다
+// ReactDOM.render( 
+//     <Main/> , 
+//     document.querySelector("#main")
+// )
 
 //rendering을 쉽게 해주는 component기반! 화면을 원하는대로 조각조각 따따따 조립하고 따따따
 // function HoHo() {
