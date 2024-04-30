@@ -6,9 +6,7 @@ createApp({
     data() {
         return {
             query:"",
-            list:[
-            {korName:"아메리카노", engName:"Americano"},
-            {korName:"카페라떼", engName:"Latte"}]
+            list:[]
         }
     },
     methods:{
