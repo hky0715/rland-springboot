@@ -122,7 +122,7 @@ public class MenuController {
         System.out.println("장바구니 총 가격 내놔 : " + cartTotalPrice);
 
         // return하는 html 파일들이 저장된 경로의 "/"는 templates임. 여기를 기준으로 쓰자
-        return "menu/list";
+        return "menu/list-dom";
     }
 
     @GetMapping("list-vue")
