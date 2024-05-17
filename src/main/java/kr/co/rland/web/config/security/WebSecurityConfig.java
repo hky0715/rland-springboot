@@ -14,6 +14,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -30,6 +34,9 @@ public class WebSecurityConfig {
 
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private WebOAuth2UserDetails oauth2UserDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -61,6 +68,10 @@ public class WebSecurityConfig {
                 // .successHandler(new AuthSuccessHandler())
 				.permitAll()
 			)
+            // 설정하면 사용자정보를 얘가 주는데! 그걸 어떻게 받고 쓸지 내가 구현해야 함
+            // client가 구글과 대화를 나눈 뒤, 구글 서버의 주소로 가서 사용자 정보를 받아온다!
+            .oauth2Login(config->config
+                .userInfoEndpoint(userInfo->userInfo.userService(oauth2UserDetailsService)))
 			.logout((logout) -> logout
                 .logoutUrl("/user/signout")
                 .logoutSuccessUrl("/index")

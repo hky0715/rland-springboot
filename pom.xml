@@ -87,6 +87,12 @@
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 			<version>3.1.2.RELEASE</version>
 		</dependency>
+
+		<!-- use this library for O`Auth -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
