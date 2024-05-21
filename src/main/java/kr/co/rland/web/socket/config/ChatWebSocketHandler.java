@@ -10,12 +10,17 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.google.gson.Gson;
+
+import kr.co.rland.web.socket.config.WebSocketUser;
+
 public class ChatWebSocketHandler extends TextWebSocketHandler {
-    List<WebSocketSession> users = new ArrayList<>();
+    List<WebSocketUser> users = new ArrayList<>();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        users.add(session);
+        WebSocketUser user = new WebSocketUser();
+        
         System.out.println("connected from " + session.getRemoteAddress());
 
         session.sendMessage(new TextMessage("Hello!"));
@@ -23,7 +28,10 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println("message = "+message.getPayload());
+        String msg = message.getPayload();
+        WebSocketData data = new Gson().fromJson(msg, WebSocketData.class);
+        
+        // 내가 메시지를 보내고자 하는 사용자들의 목록을 가지고 있어야 함.. client의 name + session
         for(WebSocketSession s : users)
             s.sendMessage(new TextMessage(message.getPayload()));
 

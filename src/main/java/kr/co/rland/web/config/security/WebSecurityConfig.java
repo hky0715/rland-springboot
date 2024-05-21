@@ -36,7 +36,7 @@ public class WebSecurityConfig {
     private DataSource dataSource;
 
     @Autowired
-    private WebOAuth2UserDetails oauth2UserDetailsService;
+    private WebOauth2UserDetailsService oauth2UserDetailsService;
 
     @Autowired
     private LoginSuccessHandler loginSuccessHandler;
@@ -69,12 +69,16 @@ public class WebSecurityConfig {
 			.formLogin((form) -> form
 				.loginPage("/user/signin")
                 // .successHandler(new AuthSuccessHandler())
+                .successHandler(loginSuccessHandler)
 				.permitAll()
 			)
             // 설정하면 사용자정보를 얘가 주는데! 그걸 어떻게 받고 쓸지 내가 구현해야 함
             // client가 구글과 대화를 나눈 뒤, 구글 서버의 주소로 가서 사용자 정보를 받아온다!
             .oauth2Login(config->config
-                .userInfoEndpoint(userInfo->userInfo.userService(oauth2UserDetailsService)))
+                .userInfoEndpoint(userInfo->userInfo
+                // .userService(oauth2UserDetailsService)))
+                .userService(oauth2UserDetailsService))
+                .successHandler(loginSuccessHandler))
 			.logout((logout) -> logout
                 .logoutUrl("/user/signout")
                 .logoutSuccessUrl("/index")
