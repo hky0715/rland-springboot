@@ -12,9 +12,9 @@ public class ChatWebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         // 접점만 설정해주면 댐
-        registry.addHandler(new ChatWebSocketHandler(), "/chat");
-        // TODO Auto-generated method stub
-        
+        registry.addHandler(new ChatWebSocketHandler(), "/chat")
+              .setAllowedOriginPatterns("*");
+    //    .setAllowedOriginPatterns("http://192.168.0.*");
     }
-    
+        
 }

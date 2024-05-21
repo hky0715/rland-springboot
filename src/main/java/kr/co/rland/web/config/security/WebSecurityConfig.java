@@ -38,6 +38,9 @@ public class WebSecurityConfig {
     @Autowired
     private WebOAuth2UserDetails oauth2UserDetailsService;
 
+    @Autowired
+    private LoginSuccessHandler loginSuccessHandler;
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
         PasswordEncoder encoder = new BCryptPasswordEncoder();

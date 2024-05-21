@@ -8,5 +8,13 @@
 			*
 		from member
 		where username = #{username}
-	</select>	
+	</select>
+
+	<select id="findByEmail" resultType="Member">
+		select
+			*
+		from member
+		where
+		email = #{email}
+	</select>
 </mapper>

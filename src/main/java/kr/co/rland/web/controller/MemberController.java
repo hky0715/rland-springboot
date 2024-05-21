@@ -17,6 +17,21 @@ public class MemberController {
 
     @Autowired
     private MemberService service;
+
+    @GetMapping("signin")
+    public String signin(){
+        return "user/signin";
+    }
+
+    @GetMapping("signup")
+    public String signup(){
+
+
+        return "user/signup";
+    }
+/*
+    @Autowired
+    private MemberService service;
     
     @GetMapping("signin")
     public String signin() {
@@ -53,5 +68,7 @@ public class MemberController {
         // *.html을 알아서 찾아줘요 기특해
         // post! 로그인을 했으니 index 페이지로 가라고 알려조용. redirect
         return "redirect:/index";
+         
     }
+    */
 }

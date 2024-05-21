@@ -8,5 +8,5 @@ import kr.co.rland.web.entity.Member;
 public interface MemberRepository {
 
     Member findByMembername(String username);
-
+    Member findByEmail(String email);
 }
